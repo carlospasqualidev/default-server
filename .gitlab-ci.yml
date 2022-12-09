@@ -1,0 +1,51 @@
+image: node:latest
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+
+stages:
+  - migrate
+  - build
+  - staging
+  - production
+
+
+migrate:
+  stage: migrate
+  script:
+    - yarn add prisma --dev
+    - yarn
+    - yarn prisma migrate deploy
+  only:
+    - develop
+    - master
+
+build:
+    stage: build
+    script:
+      - yarn add typescript
+      - yarn build
+      - ls
+    only:
+      - develop
+      - master
+
+staging:
+  environment: review/develop
+  stage: staging
+  image: ruby:latest
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
+  only:
+    - develop
+
+production:
+  environment: production
+  stage: production
+  image: ruby:latest
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
+  only:
+    - master
