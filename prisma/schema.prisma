@@ -9,3 +9,31 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+//VALIDATIONS TOKENS
+
+model ValidationToken {
+  id      String  @id @unique @default(uuid())
+  token   String  @unique
+  hasUsed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("validationsTokens")
+}
+
+//USER
+model User {
+  id           String    @id @unique @default(uuid())
+  name         String
+  email        String    @unique
+  isBlocked    Boolean   @default(false)
+  passwordHash String
+  lastAccess   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
