@@ -15,4 +15,3 @@ export interface IHandlerTemplate {
   template: 'confirmEmail';
   variables: IVariables;
 }
-
