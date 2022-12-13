@@ -1,19 +1,11 @@
-// LIBS
 import axios from 'axios';
-
-// TYPES
-import { NextFunction, Request, Response } from 'express';
-
-// CLASS
+import { Request, Response } from 'express';
 import { ErrorMessage } from './ErrorMessage';
-
-// Functions
 
 export const errorHandler = async (
   err: Error,
   _req: Request,
   res: Response,
-  _next: NextFunction,
 ) => {
   if (err instanceof ErrorMessage) {
     return res.status(err.statusCode).json({
@@ -26,7 +18,7 @@ export const errorHandler = async (
     process.env.DATABASE_URL?.includes('production')
   ) {
     axios.post('https://ada-logs.herokuapp.com/api/logs/create', {
-      //changehere
+      // changehere
       projectName: 'project name',
       environment: process.env.DATABASE_URL?.includes('sandbox')
         ? 'Sandbox'

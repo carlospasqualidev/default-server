@@ -7,7 +7,7 @@ import 'express-async-errors';
 import { errorHandler } from '../services';
 import { ControllerRouter } from '../controllers/routes';
 
-//endregion
+// endregion
 
 export const Server = express();
 
@@ -16,4 +16,5 @@ Server.use(cors(corsOptions));
 Server.use('/api', ControllerRouter);
 
 Server.use(helmet());
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 Server.use(errorHandler);

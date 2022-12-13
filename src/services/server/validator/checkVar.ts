@@ -1,3 +1,4 @@
+/* eslint-disable valid-typeof */
 import { ErrorMessage } from '../messages/ErrorMessage';
 import { ICheckVar } from './types';
 
