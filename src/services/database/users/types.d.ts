@@ -1,6 +1,20 @@
 export interface ICreateUser {
   name: string;
   email: string;
-  isBlocked: boolean;
-  passwordHash: string;
+  image: string | null;
+  password: string;
+  customUrl: string;
+  Permissions?: {
+    create: {
+      permissionId: string;
+      Settings: {
+        create: {
+          create: boolean;
+          edit: boolean;
+          view: boolean;
+          delete: boolean;
+        };
+      };
+    };
+  };
 }

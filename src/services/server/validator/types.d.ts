@@ -4,3 +4,9 @@ export interface ICheckVar {
   type: 'string' | 'number' | 'boolean';
   isOptional?: boolean;
 }
+
+export interface ICheckExists {
+  label: string;
+  variable: any;
+}
+[];

@@ -4,7 +4,7 @@ import express from 'express';
 import helmet from 'helmet';
 import { corsOptions } from './corsOptions';
 import 'express-async-errors';
-import { errorHandler } from '../services';
+import { errorHandler } from '../services/server/messages';
 import { ControllerRouter } from '../controllers/routes';
 
 // endregion

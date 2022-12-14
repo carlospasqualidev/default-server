@@ -9,8 +9,8 @@
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": "./tsconfig.json"
+    "sourceType": "module"
+    // "project": "./tsconfig.json"
   },
   "rules": {
     "camelcase": 2,

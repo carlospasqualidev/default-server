@@ -23,17 +23,66 @@ model ValidationToken {
   @@map("validationsTokens")
 }
 
-//USER
-model User {
-  id           String    @id @unique @default(uuid())
-  name         String
-  email        String    @unique
-  isBlocked    Boolean   @default(false)
-  passwordHash String
-  lastAccess   DateTime?
+//PERMISSIONS
+model Permission {
+  id   String @id @unique @default(uuid())
+  name String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  Users UserPermission[]
+
+  @@map("Permissions")
+}
+
+//USERS
+model User {
+  id         String    @id @unique @default(uuid())
+  name       String
+  email      String    @unique
+  image      String?
+  isBlocked  Boolean   @default(false)
+  isDeleted  Boolean   @default(false)
+  password   String
+  lastAccess DateTime?
+  customUrl  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Permissions UserPermission[]
+
   @@map("users")
+}
+
+model UserPermission {
+  id           String @id @unique @default(uuid())
+  permissionId String
+  userId       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Permission Permission               @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  User       User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Settings   UserPermissionSettings[]
+
+  @@map("usersPermissions")
+}
+
+model UserPermissionSettings {
+  id               String  @id @unique @default(uuid())
+  userPermissionId String
+  create           Boolean @default(true)
+  edit             Boolean @default(true)
+  view             Boolean @default(true)
+  delete           Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  UserPermission UserPermission @relation(fields: [userPermissionId], references: [id], onDelete: Cascade)
+
+  @@map("usersPermissionsSettings")
 }
