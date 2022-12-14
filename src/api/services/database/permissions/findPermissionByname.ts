@@ -1,4 +1,4 @@
-import { Prisma } from '../../../../prisma';
+import { Prisma } from '../../../../../prisma';
 import { checkExists } from '../../server/validator';
 import { IFindPermissionByName } from './types';
 

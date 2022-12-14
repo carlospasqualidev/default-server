@@ -1,5 +1,5 @@
 import { IToken } from './types';
-import { Prisma } from '../../../../prisma';
+import { Prisma } from '../../../../../prisma';
 import { ErrorMessage } from '../messages/ErrorMessage';
 
 export async function findToken({ token }: IToken) {
