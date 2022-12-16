@@ -18,6 +18,7 @@ const transporter = createTransport({
   },
   tls: { rejectUnauthorized: false },
 });
+// #endregion
 
 export async function sendEmail({
   subject,

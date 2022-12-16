@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { Login } from './controllers/authentication/login';
-import { authenticationMiddleware } from './services/server/middlewares/authenticationMiddlewere';
+import { LoginController } from './controllers/authentication';
+import { authenticationMiddleware } from './services/server/middlewares';
 
 export const ServerRouter = Router();
 
-ServerRouter.post('/login', Login);
+ServerRouter.post('/login', LoginController);
 
 ServerRouter.post('/teste', authenticationMiddleware, () => {
   console.log('fff');

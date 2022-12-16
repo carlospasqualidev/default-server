@@ -4,14 +4,14 @@ import { Request, Response } from 'express';
 import { compare } from 'bcrypt';
 
 // SERVICES
-import { findUserByEmailService } from '../../services/database/users/findUserByNameService';
+import { findUserByEmail } from '../../services/database/users';
 import { checkVar } from '../../services/server/validator';
 import { ErrorMessage } from '../../services/server/messages';
 import { generateToken } from '../../services/server/token';
-import { checkPermission } from '../../services/database/permissions/checkPermission';
+import { checkPermission } from '../../services/database/permissions';
 // #endregion
 
-export async function Login(req: Request, res: Response) {
+export async function LoginController(req: Request, res: Response) {
   /* #region SWAGGER
       #swagger.tags = ['Authentication']
       #swagger.description = 'Endpoint para logar o usuário.'
@@ -64,16 +64,11 @@ export async function Login(req: Request, res: Response) {
     },
   ]);
 
-  const User = await findUserByEmailService({ email });
+  const User = await findUserByEmail({ email });
 
   checkPermission({
     permission: 'admin',
     Permissions: User.Permissions,
-    checkCRUD: {
-      // checkEdit: true,
-      // checkView: true,
-      delete: true,
-    },
   });
 
   const checkPassword = await compare(password, User.password);

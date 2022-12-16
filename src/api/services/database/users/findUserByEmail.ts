@@ -2,7 +2,7 @@ import { Prisma } from '../../../../../prisma';
 import { checkExists } from '../../server/validator';
 import { IFindUserByEmail } from './types';
 
-export async function findUserByEmailService({ email }: IFindUserByEmail) {
+export async function findUserByEmail({ email }: IFindUserByEmail) {
   const User = await Prisma.user.findUnique({
     select: {
       id: true,

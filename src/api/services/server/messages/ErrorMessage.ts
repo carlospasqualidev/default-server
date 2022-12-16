@@ -1,4 +1,3 @@
-// TYPES
 import { IErrorMessage } from './types';
 
 export class ErrorMessage {
