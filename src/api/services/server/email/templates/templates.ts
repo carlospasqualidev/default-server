@@ -1,7 +1,7 @@
 import { IVariables } from '../types';
 
-export function emailTemplate({ variables }: { variables: IVariables }) {
-  return `<div
+export const emailTemplate = ({ variables }: { variables: IVariables }) => `
+<div
     style='
       background-size: cover;
       background: #EDEDED;
@@ -113,4 +113,3 @@ export function emailTemplate({ variables }: { variables: IVariables }) {
     </div>
     </div>
   `;
-}

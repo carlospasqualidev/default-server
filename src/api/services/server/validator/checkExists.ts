@@ -2,7 +2,7 @@
 import { ErrorMessage } from '../messages/ErrorMessage';
 import { ICheckExists } from './types';
 
-export function checkExists(Vars: ICheckExists[]) {
+export const checkExists = (Vars: ICheckExists[]) => {
   for (let i = 0; i < Vars.length; i++) {
     if (Vars[i].variable === null || Vars[i].variable === undefined) {
       throw new ErrorMessage({
@@ -11,4 +11,4 @@ export function checkExists(Vars: ICheckExists[]) {
       });
     }
   }
-}
+};

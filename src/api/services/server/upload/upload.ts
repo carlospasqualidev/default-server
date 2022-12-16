@@ -9,7 +9,7 @@ import s3Storage from 'multer-sharp-s3';
 import { Response, Request } from 'express';
 import { ErrorMessage } from '../messages';
 
-export async function upload(req: Request, res: Response) {
+export const upload = async (req: Request, res: Response) => {
   const s3bucket = new aws.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -49,4 +49,4 @@ export async function upload(req: Request, res: Response) {
       return res.status(200).json(req.file);
     }
   });
-}
+};

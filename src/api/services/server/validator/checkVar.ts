@@ -2,7 +2,7 @@
 import { ErrorMessage } from '../messages/ErrorMessage';
 import { ICheckVar } from './types';
 
-export function checkVar(Vars: ICheckVar[]) {
+export const checkVar = (Vars: ICheckVar[]) => {
   for (let i = 0; i < Vars.length; i++) {
     if (
       !Vars[i].isOptional &&
@@ -21,4 +21,4 @@ export function checkVar(Vars: ICheckVar[]) {
       });
     }
   }
-}
+};

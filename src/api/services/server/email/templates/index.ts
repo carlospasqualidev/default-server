@@ -1,7 +1,7 @@
 import { IHandlerTemplate } from '../types';
 import { emailTemplate } from './templates';
 
-export function handlerTemplate({ template, variables }: IHandlerTemplate) {
+export const handlerTemplate = ({ template, variables }: IHandlerTemplate) => {
   switch (template) {
     case 'confirmEmail':
       return emailTemplate({
@@ -13,4 +13,4 @@ export function handlerTemplate({ template, variables }: IHandlerTemplate) {
         variables,
       });
   }
-}
+};

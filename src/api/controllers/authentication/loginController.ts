@@ -9,9 +9,11 @@ import { checkVar } from '../../services/server/validator';
 import { ErrorMessage } from '../../services/server/messages';
 import { generateToken } from '../../services/server/token';
 import { checkPermission } from '../../services/database/permissions';
+import { addTimeDate } from '../../services/server/dateTime/addTimeDate';
+
 // #endregion
 
-export async function LoginController(req: Request, res: Response) {
+export const LoginController = async (req: Request, res: Response) => {
   /* #region SWAGGER
       #swagger.tags = ['Authentication']
       #swagger.description = 'Endpoint para logar o usuário.'
@@ -95,7 +97,28 @@ export async function LoginController(req: Request, res: Response) {
     },
   });
 
+  const dateDay = addTimeDate({
+    date: new Date(),
+    addDays: 1,
+  });
+
+  const dateMinute = addTimeDate({
+    date: new Date(),
+    addMinutes: 20,
+  });
+
+  const dateMinuteDay = addTimeDate({
+    date: new Date(),
+    addDays: 1,
+    addMinutes: 20,
+  });
+  console.log('new', new Date());
+  console.log('+ 1 day', dateDay);
+  console.log('+ 20 min', dateMinute);
+  console.log('+ 1 day  and + 20 min', dateMinuteDay);
+
   return res.status(200).json({
+    token,
     User: {
       id: User.id,
       name: User.name,
@@ -105,6 +128,5 @@ export async function LoginController(req: Request, res: Response) {
       customUrl: User.customUrl,
       Permissions: User.Permissions,
     },
-    token,
   });
-}
+};

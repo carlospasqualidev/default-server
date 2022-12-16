@@ -3,7 +3,7 @@ import { hashSync } from 'bcrypt';
 import { Prisma } from './index';
 import { findPermissionByName } from '../src/api/services/database/permissions';
 
-async function createManyPermissions() {
+export const createManyPermissions = async () => {
   await Prisma.permission.upsert({
     where: { name: 'admin' },
     update: {},
@@ -21,9 +21,9 @@ async function createManyPermissions() {
   });
 
   console.log('Permissions inserted.');
-}
+};
 
-async function createAdmin() {
+const createAdmin = async () => {
   const permissionAdmin = await findPermissionByName({ name: 'admin' });
 
   await Prisma.user.upsert({
@@ -44,12 +44,12 @@ async function createAdmin() {
   });
 
   console.log('Admin inserted.');
-}
+};
 
-async function main() {
+const main = async () => {
   await createManyPermissions();
   await createAdmin();
-}
+};
 main()
   .then(async () => {
     await Prisma.$disconnect();

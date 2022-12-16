@@ -20,13 +20,13 @@ const transporter = createTransport({
 });
 // #endregion
 
-export async function sendEmail({
+export const sendEmail = async ({
   subject,
   toEmail,
   text,
   link,
   template,
-}: ISendEmail) {
+}: ISendEmail) => {
   const mail = {
     from: `${subject} <${process.env.EMAIL_USERNAME}>`,
     to: toEmail,
@@ -48,4 +48,4 @@ export async function sendEmail({
       message: 'Oops! Encontramos um problema ao enviar o e-mail.',
     });
   });
-}
+};

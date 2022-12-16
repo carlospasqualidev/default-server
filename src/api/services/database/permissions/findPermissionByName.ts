@@ -2,7 +2,7 @@ import { Prisma } from '../../../../../prisma';
 import { checkExists } from '../../server/validator';
 import { IFindPermissionByName } from './types';
 
-export async function findPermissionByName({ name }: IFindPermissionByName) {
+export const findPermissionByName = async ({ name }: IFindPermissionByName) => {
   const permission = await Prisma.permission.findUnique({
     select: {
       id: true,
@@ -16,4 +16,4 @@ export async function findPermissionByName({ name }: IFindPermissionByName) {
   checkExists([{ label: 'Permissão', variable: permission }]);
 
   return permission!;
-}
+};
