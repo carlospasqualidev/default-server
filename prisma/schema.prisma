@@ -61,28 +61,16 @@ model UserPermission {
   permissionId String
   userId       String
 
+  create Boolean @default(true)
+  edit   Boolean @default(true)
+  view   Boolean @default(true)
+  delete Boolean @default(true)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Permission Permission               @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-  User       User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Settings   UserPermissionSettings[]
+  Permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  User       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("usersPermissions")
-}
-
-model UserPermissionSettings {
-  id               String  @id @unique @default(uuid())
-  userPermissionId String
-  create           Boolean @default(true)
-  edit             Boolean @default(true)
-  view             Boolean @default(true)
-  delete           Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  UserPermission UserPermission @relation(fields: [userPermissionId], references: [id], onDelete: Cascade)
-
-  @@map("usersPermissionsSettings")
 }

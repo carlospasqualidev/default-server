@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+  "swagger": "2.0.0",
   "info": {
     "version": "1.0.0",
     "title": "My API",
@@ -11,12 +11,6 @@
   },
   "host": "localhost:8080",
   "basePath": "/api",
-  "tags": [
-    {
-      "name": "User",
-      "description": "Endpoints"
-    }
-  ],
   "schemes": ["http", "https"],
   "securityDefinitions": {
     "bearer": {
@@ -28,22 +22,26 @@
     }
   },
   "paths": {
-    "/users": {
+    "/login": {
       "post": {
-        "tags": ["User"],
-        "description": "Endpoint para obter um usuário.",
+        "tags": ["Authentication"],
+        "description": "Endpoint para logar o usuário.",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Informações para efetuar login.",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "example": "any"
+                "email": {
+                  "type": "string",
+                  "example": "admin@ada.com"
                 },
-                "tanso": {
-                  "example": "any"
+                "password": {
+                  "type": "string",
+                  "example": "123123123"
                 }
               }
             }
@@ -51,96 +49,118 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          }
-        }
-      }
-    }
-  },
-  "definitions": {
-    "User": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "example": "Jhon Doe"
-        },
-        "age": {
-          "type": "number",
-          "example": 29
-        },
-        "parents": {
-          "type": "object",
-          "properties": {
-            "father": {
-              "type": "string",
-              "example": "Simon Doe"
-            },
-            "mother": {
-              "type": "string",
-              "example": "Marie Doe"
-            }
-          }
-        },
-        "diplomas": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "school": {
-                "type": "string",
-                "example": "XYZ University"
-              },
-              "year": {
-                "type": "number",
-                "example": 2020
-              },
-              "completed": {
-                "type": "boolean",
-                "example": true
-              },
-              "internship": {
-                "type": "object",
-                "properties": {
-                  "hours": {
-                    "type": "number",
-                    "example": 290
-                  },
-                  "location": {
-                    "type": "string",
-                    "example": "XYZ Company"
+            "description": "Usuário encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "User": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "image": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "lastAccess": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "Permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Permission": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "example": ""
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": ""
+                              }
+                            }
+                          },
+                          "create": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "edit": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "view": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "delete": {
+                            "type": "boolean",
+                            "example": true
+                          }
+                        }
+                      }
+                    }
                   }
                 }
+              },
+              "xml": {
+                "name": "main"
               }
             }
           }
-        }
+        },
+        "security": []
       }
     },
-    "AddUser": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "example": "Jhon Doe"
-        },
-        "age": {
-          "type": "number",
-          "example": 29
-        },
-        "about": {
-          "type": "string",
-          "example": ""
-        }
-      },
-      "required": ["name", "age"]
+    "/teste": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/fuck": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
     }
   },
-  "securitySchemes": {
-    "bearerAuth": {
-      "type": "http",
-      "scheme": "bearer",
-      "bearerFormat": "JWT"
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
     }
+  },
+  "security": {
+    "bearerAuth": []
   }
 }

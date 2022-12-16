@@ -1,7 +1,7 @@
-import { IToken } from './types';
+import { ITokenService } from './types';
 import { Prisma } from '../../../../../prisma';
 
-export async function saveTokenInDatabase({ token }: IToken) {
+export async function saveTokenInDatabase({ token }: ITokenService) {
   await Prisma.validationToken.create({
     data: {
       token,

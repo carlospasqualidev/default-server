@@ -1,1 +1,1 @@
-export * from './createManyPermissions';
+export * from './findPermissionByname';

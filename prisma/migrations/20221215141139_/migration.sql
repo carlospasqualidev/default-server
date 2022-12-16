@@ -41,16 +41,6 @@ CREATE TABLE "usersPermissions" (
     "id" TEXT NOT NULL,
     "permissionId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "usersPermissions_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "usersPermissionsSettings" (
-    "id" TEXT NOT NULL,
-    "userPermissionId" TEXT NOT NULL,
     "create" BOOLEAN NOT NULL DEFAULT true,
     "edit" BOOLEAN NOT NULL DEFAULT true,
     "view" BOOLEAN NOT NULL DEFAULT true,
@@ -58,7 +48,7 @@ CREATE TABLE "usersPermissionsSettings" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "usersPermissionsSettings_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "usersPermissions_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -82,14 +72,8 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "usersPermissions_id_key" ON "usersPermissions"("id");
 
--- CreateIndex
-CREATE UNIQUE INDEX "usersPermissionsSettings_id_key" ON "usersPermissionsSettings"("id");
-
 -- AddForeignKey
 ALTER TABLE "usersPermissions" ADD CONSTRAINT "usersPermissions_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "Permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "usersPermissions" ADD CONSTRAINT "usersPermissions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "usersPermissionsSettings" ADD CONSTRAINT "usersPermissionsSettings_userPermissionId_fkey" FOREIGN KEY ("userPermissionId") REFERENCES "usersPermissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;

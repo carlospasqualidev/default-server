@@ -18,19 +18,15 @@ export const doc = {
   host: 'localhost:8080',
   basePath: '/api',
   schemes: ['http', 'https'],
-  securitySchemes: {
-    bearerAuth: {
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
+  security: { bearerAuth: [] },
+  components: {
+    securitySchemes: {
+      BearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+      },
     },
   },
-  tags: [
-    {
-      name: 'User',
-      description: 'Endpoints',
-    },
-  ],
   securityDefinitions: {
     bearer: {
       type: 'apiKey',
@@ -38,32 +34,6 @@ export const doc = {
       in: 'header',
       scheme: 'bearer',
       bearerFormat: 'JWT',
-    },
-  },
-  definitions: {
-    User: {
-      name: 'Jhon Doe',
-      age: 29,
-      parents: {
-        father: 'Simon Doe',
-        mother: 'Marie Doe',
-      },
-      diplomas: [
-        {
-          school: 'XYZ University',
-          year: 2020,
-          completed: true,
-          internship: {
-            hours: 290,
-            location: 'XYZ Company',
-          },
-        },
-      ],
-    },
-    AddUser: {
-      $name: 'Jhon Doe',
-      $age: 29,
-      about: '',
     },
   },
 };

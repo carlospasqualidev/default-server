@@ -1,11 +1,14 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ErrorMessage } from './ErrorMessage';
 
 export const errorHandler = async (
   err: Error,
   _req: Request,
   res: Response,
+  _next: NextFunction,
 ) => {
   if (err instanceof ErrorMessage) {
     return res.status(err.statusCode).json({

@@ -18,3 +18,7 @@ export interface ICreateUser {
     };
   };
 }
+
+export interface IFindUserByEmail {
+  email: string;
+}
