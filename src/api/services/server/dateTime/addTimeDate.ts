@@ -1,13 +1,13 @@
-import { IAddTimeDate } from './types';
+import { ITimeDate } from './types';
 
-export const addTimeDate = ({ date, addDays, addMinutes }: IAddTimeDate) => {
+export const addTimeDate = ({ date, days, minutes }: ITimeDate) => {
   let newDate = new Date(date);
 
-  if (addDays) {
-    newDate.setDate(date.getDate() + addDays);
+  if (days) {
+    newDate.setDate(date.getDate() + days);
   }
-  if (addMinutes) {
-    newDate = new Date(newDate.getTime() + addMinutes * 60000);
+  if (minutes) {
+    newDate = new Date(newDate.getTime() + minutes * 60000);
   }
   return newDate;
 };

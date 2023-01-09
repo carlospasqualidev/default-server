@@ -7,8 +7,13 @@ export interface IAddMinutesInDate {
   minutes: number;
 }
 
-export interface IAddTimeDate {
+export interface ITimeDate {
   date: Date;
-  addDays?: number;
-  addMinutes?: number;
+  days?: number;
+  minutes?: number;
+}
+
+export interface IAddWorkingTimeDate {
+  date: Date;
+  days: number;
 }

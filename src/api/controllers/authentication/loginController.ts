@@ -9,7 +9,6 @@ import { checkVar } from '../../services/server/validator';
 import { ErrorMessage } from '../../services/server/messages';
 import { generateToken } from '../../services/server/token';
 import { checkPermission } from '../../services/database/permissions';
-import { addTimeDate } from '../../services/server/dateTime/addTimeDate';
 
 // #endregion
 
@@ -96,26 +95,6 @@ export const LoginController = async (req: Request, res: Response) => {
       Permissions: User.Permissions,
     },
   });
-
-  const dateDay = addTimeDate({
-    date: new Date(),
-    addDays: 1,
-  });
-
-  const dateMinute = addTimeDate({
-    date: new Date(),
-    addMinutes: 20,
-  });
-
-  const dateMinuteDay = addTimeDate({
-    date: new Date(),
-    addDays: 1,
-    addMinutes: 20,
-  });
-  console.log('new', new Date());
-  console.log('+ 1 day', dateDay);
-  console.log('+ 20 min', dateMinute);
-  console.log('+ 1 day  and + 20 min', dateMinuteDay);
 
   return res.status(200).json({
     token,
