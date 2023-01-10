@@ -4,7 +4,7 @@ import { removeTimeDate } from './removeTimeDate';
 export const noWeekendTimeDate = ({ date }: { date: Date }) => {
   let dateNoWeekend;
 
-  switch (date.getDay()) {
+  switch (date.getUTCDate()) {
     case 0:
       dateNoWeekend = addTimeDate({
         date,
