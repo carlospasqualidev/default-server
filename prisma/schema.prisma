@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model tokens {
+  id        String   @id @unique @default(uuid())
+  token     String   @unique
+  hasUsed   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model permissions {
+  id        String   @id @unique @default(uuid())
+  name      String   @unique
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users          usersPermissions[]
+  subPermissions subPermissions[]
+}
+
+model subPermissions {
+  id        String   @id @unique @default(uuid())
+  name      String
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  permissionsId String
+  permissions   permissions @relation(fields: [permissionsId], references: [id])
+}
+
+model users {
+  id         String    @id @unique @default(uuid())
+  name       String
+  email      String    @unique
+  image      String?
+  isBlocked  Boolean   @default(false)
+  isDeleted  Boolean   @default(false)
+  password   String
+  lastAccess DateTime?
+  customUrl  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  permissions usersPermissions[]
+}
+
+model usersPermissions {
+  id           String @id @unique @default(uuid())
+  permissionId String
+  userId       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  permission permissions @relation(fields: [permissionId], references: [id])
+  user       users       @relation(fields: [userId], references: [id])
+}
