@@ -1,11 +1,8 @@
 import { Router } from 'express';
+import { swaggerLoader, swaggerUI } from '../config/swagger';
 
 export const ServerRouter = Router();
 
-ServerRouter.get('/teste', () => {
-  const user = {
-    name: 'fasfhajfk',
-  };
-  console.log('fff');
-  return user;
+ServerRouter.use('/docs', swaggerUI.serve, (_req: any, res: any) => {
+  res.send(swaggerUI.generateHTML(swaggerLoader));
 });
