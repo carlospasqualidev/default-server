@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --exit-child --transpile-only --inspect --ignore-watch node_modules src/app.ts",
+    "dev": "ts-node-dev --respawn --exit-child --transpile-only --inspect --ignore-watch node_modules --clear src/app.ts",
     "start": "node dist/src/app.js",
     "prepare": "husky install",
     "build": "tsc",
