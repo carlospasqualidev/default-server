@@ -19,7 +19,7 @@ export function templateExample({
   <img
     src="https://adasoftwarehouse.com/_next/static/images/LogoAdaName-0e8e17ba8186991ece3c1c56860f64d6.svg"
     alt=""
-    style="margin: 0 auto; display: block; width: 388px; height: 87px;"
+    style="margin: 0 auto; display: block; height: 87px;"
   />
 
   <div style="width: 328px; margin: 0 auto;">

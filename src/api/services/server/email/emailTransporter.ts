@@ -41,7 +41,7 @@ export const sendTemplateExemple = async ({
     }),
   };
 
-  transporter.sendMail(mail).catch(() => {
+ await transporter.sendMail(mail).catch(() => {
     throw new ErrorMessage({
       statusCode: 400,
       message: 'Oops! Encontramos um problema ao enviar o e-mail.',
