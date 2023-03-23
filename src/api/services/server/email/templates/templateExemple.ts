@@ -1,11 +1,6 @@
 import { ITemplateExample } from './types';
 
-export function templateExample({
-  subject,
-  field1,
-  field2,
-  field3,
-}: ITemplateExample) {
+export function templateExample({ subject, field1, field2, field3 }: ITemplateExample) {
   return ` <div style="background-size: cover; background: #ededed; padding: 24px;">
 <div
   style="

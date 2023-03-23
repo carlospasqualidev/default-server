@@ -27,8 +27,7 @@ export const postWhatsappConfirmationService = async ({
   } catch (error) {
     throw new ErrorMessage({
       statusCode: 400,
-      message:
-        'Oops! Encontramos um problema ao enviar a confirmação de WhatsApp.',
+      message: 'Oops! Encontramos um problema ao enviar a confirmação de WhatsApp.',
     });
   }
 };

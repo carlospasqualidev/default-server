@@ -4,10 +4,7 @@ import { ICheckVar } from './types';
 
 export const checkVar = (Vars: ICheckVar[]) => {
   for (let i = 0; i < Vars.length; i++) {
-    if (
-      !Vars[i].isOptional &&
-      (Vars[i].variable === null || Vars[i].variable === undefined)
-    ) {
+    if (!Vars[i].isOptional && (Vars[i].variable === null || Vars[i].variable === undefined)) {
       throw new ErrorMessage({
         statusCode: 400,
         message: `Verifique a informação: ${Vars[i].label} e tente novamente.`,

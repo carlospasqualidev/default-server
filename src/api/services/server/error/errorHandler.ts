@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 
-import axios from 'axios';
 import { NextFunction, Request, Response } from 'express';
 import { ErrorMessage } from './ErrorMessage';
+import { sendErrorToAdaLogs } from './sendErrorToAdaLogs';
 
 export const errorHandler = async (
   err: Error,
@@ -18,17 +18,7 @@ export const errorHandler = async (
     });
   }
 
-  if (
-    process.env.DATABASE_URL?.includes('sandbox') ||
-    process.env.DATABASE_URL?.includes('production')
-  ) {
-    axios.post('https://ada-logs.herokuapp.com/api/errors/create', {
-      projectName: 'changehere',
-      environment: process.env.DATABASE_URL,
-      side: 'Server',
-      errorStack: err.stack,
-    });
-  }
+  sendErrorToAdaLogs(err.stack);
 
   console.error('\n\n\n ❌ Error ❌ \n\n\n', 'Error Message: ', err.stack, '\n\n\n');
 
