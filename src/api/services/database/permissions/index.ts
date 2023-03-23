@@ -1,2 +1,1 @@
-export * from './checkPermission';
-export * from './findPermissionByName';
+export * from './findPermissionByNameService';

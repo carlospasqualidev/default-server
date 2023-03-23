@@ -17,7 +17,6 @@ export const findPermissionByName = async ({ name }: IFindPermissionByName) => {
     },
     where: {
       name,
-      isDeleted: false,
     },
   });
 

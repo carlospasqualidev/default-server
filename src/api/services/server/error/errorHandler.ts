@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+
 import axios from 'axios';
 import { NextFunction, Request, Response } from 'express';
 import { ErrorMessage } from './ErrorMessage';
@@ -20,22 +22,15 @@ export const errorHandler = async (
     process.env.DATABASE_URL?.includes('sandbox') ||
     process.env.DATABASE_URL?.includes('production')
   ) {
-    axios.post('https://ada-logs.herokuapp.com/api/logs/create', {
+    axios.post('https://ada-logs.herokuapp.com/api/errors/create', {
       projectName: 'changehere',
-      environment: process.env.DATABASE_URL?.includes('sandbox')
-        ? 'Sandbox'
-        : 'Production',
+      environment: process.env.DATABASE_URL,
       side: 'Server',
       errorStack: err.stack,
     });
   }
-  // eslint-disable-next-line no-console
-  console.log(
-    '\n\n\n ❌ Error ❌ \n\n\n',
-    'Error Message: ',
-    err.stack,
-    '\n\n\n',
-  );
+
+  console.error('\n\n\n ❌ Error ❌ \n\n\n', 'Error Message: ', err.stack, '\n\n\n');
 
   return res.status(500).json({
     message: `Oops! Encontramos um problema e nossa equipe foi notificada.`,

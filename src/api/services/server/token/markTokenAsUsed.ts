@@ -1,8 +1,8 @@
+import { prisma } from '../../../../../prisma';
 import { ITokenService } from './types';
-import { Prisma } from '../../../../../prisma';
 
 export const markTokenAsUsed = async ({ token }: ITokenService) => {
-  await Prisma.validationToken.update({
+  await prisma.tokens.update({
     data: {
       hasUsed: true,
     },

@@ -1,9 +1,9 @@
 import { ITokenService } from './types';
-import { Prisma } from '../../../../../prisma';
 import { ErrorMessage } from '../error/ErrorMessage';
+import { prisma } from '../../../../../prisma';
 
 export const findToken = async ({ token }: ITokenService) => {
-  const tokenData = await Prisma.validationToken.findFirst({
+  const tokenData = await prisma.tokens.findFirst({
     where: {
       token,
       hasUsed: false,

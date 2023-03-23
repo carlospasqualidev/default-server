@@ -1,1 +1,2 @@
-export * from './authenticationMiddlewere';
+export * from './checkPermission';
+export * from './checkToken';

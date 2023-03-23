@@ -5,6 +5,7 @@ import { findPermissionByName } from '../permissions';
 
 export const createAdminService = async () => {
   const permissionAdmin = await findPermissionByName({ name: 'admin' });
+  const permissionUser = await findPermissionByName({ name: 'user' });
 
   await prisma.users.upsert({
     where: { email: 'admin@ada.com' },
@@ -32,7 +33,7 @@ export const createAdminService = async () => {
       password: hashSync('123123123', 12),
       permissions: {
         create: {
-          permissionId: permissionAdmin.id,
+          permissionId: permissionUser.id,
         },
       },
     },

@@ -1,19 +1,18 @@
 // A tipagem do token deve ser a mesma do express
-export interface IToken {
-  userId: string;
-  permissions: [
-    {
-      id: string;
-      name: string;
-      isDeleted: boolean;
 
-      subPermissions: [
-        {
-          id: string;
-          name: string;
-          isDeleted: boolean;
-        },
-      ];
-    },
-  ];
+export interface IPermissions {
+  id: string;
+  name: string;
+
+  subPermissions: {
+    id: string;
+    name: string;
+  }[];
+}
+
+export interface IToken {
+  user: {
+    id: string;
+    permissions: IPermissions[];
+  };
 }

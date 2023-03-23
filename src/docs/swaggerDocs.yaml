@@ -1,20 +1,15 @@
+# https://editor.swagger.io/
+
 openapi: 3.0.0
 info:
-  title: Server API
-  description: Swagger API of Server.
-  version: 0.1
+  title: Ada Logs Server API
+  description: Swagger API of Ada Logs Server.
+  version: '0.1'
 
   contact:
-  name: Carlos Pasquali
-  email: carlos.pasquali.dev@gmail.com
-  url: https://carlospasqualidev.vercel.app
-
-variables:
-  protocol:
-    enum:
-      - http
-      - https
-    default: http
+    name: 'Carlos Pasquali'
+    email: 'carlos.pasquali.dev@gmail.com'
+    url: 'https://carlospasqualidev.vercel.app/'
 
 servers:
   - url: '{protocol}://localhost:8080/api'
@@ -26,23 +21,122 @@ servers:
           - https
         default: http
 
-securityDefinitions:
-  BasicAuth:
-    type: basic
-security:
-  - BasicAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error: # Can be referenced as $ref: '#/components/schemas/Error'
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
+    Ok: # Can be referenced as $ref: '#/components/schemas/Ok'
+      type: object
+      properties:
+        object:
+          type: object
+        message:
+          type: string
+
+# security:
+#   - bearerAuth: []
 
 paths:
-  /exemples/send:
-    get:
+  /login:
+    post:
       tags:
-        - Notifications
-      summary: Send notifications.
-      description: Send notifications.
+        - Auth
+      summary: login.
+      description: log in user account and return a access token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
 
-  /exemples/check/expireds:
+      responses:
+        '200':
+          $ref: '#/components/schemas/Ok'
+        '400':
+          $ref: '#/components/schemas/Error'
+
+  /actions/create:
+    post:
+      tags:
+        - Actions
+      summary: create action.
+      description: create action.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectName:
+                  type: string
+                environment:
+                  type: string
+                actions:
+                  type: string
+                side:
+                  type: string
+      responses:
+        '200':
+          $ref: '#/components/schemas/Ok'
+        '400':
+          $ref: '#/components/schemas/Error'
+
+  /actions:
     get:
       tags:
-        - Notifications
-      summary: check for expireds notifications.
-      description: check for expireds notifications.
+        - Actions
+      summary: find Many actions.
+      description: find Many actions.
+
+      parameters:
+        - name: projectName
+          in: query
+          description: Parameter for find actions by project name.
+          default: ' '
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/schemas/Ok'
+        '400':
+          $ref: '#/components/schemas/Error'
+
+  /teste:
+    get:
+      tags:
+        - Actions
+      summary: find Many actions.
+      description: find Many actions.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: projectName
+          in: query
+          description: Parameter for find actions by project name.
+          default: ' '
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/schemas/Ok'
+        '400':
+          $ref: '#/components/schemas/Error'

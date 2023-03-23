@@ -13,7 +13,6 @@ CREATE TABLE "tokens" (
 CREATE TABLE "permissions" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -24,7 +23,6 @@ CREATE TABLE "permissions" (
 CREATE TABLE "subPermissions" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "permissionsId" TEXT NOT NULL,
@@ -39,7 +37,6 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "image" TEXT,
     "isBlocked" BOOLEAN NOT NULL DEFAULT false,
-    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "password" TEXT NOT NULL,
     "lastAccess" TIMESTAMP(3),
     "customUrl" TEXT,
