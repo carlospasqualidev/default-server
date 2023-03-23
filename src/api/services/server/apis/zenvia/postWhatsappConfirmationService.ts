@@ -10,7 +10,8 @@ export const postWhatsappConfirmationService = async ({
     await ApiZenvia.post(
       '/v2/channels/whatsapp/messages',
       {
-        from: '554891538634',
+        // changehere
+        from: '000',
         to: `55${receiverPhoneNumber}`,
         contents: [
           {

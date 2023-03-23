@@ -16,7 +16,8 @@ export const postWhatsappSendMaintenanceNotificationService = async ({
       '/v2/channels/whatsapp/messages',
 
       {
-        from: '554891538634',
+        // changehere
+        from: '000',
         to: `55${receiverPhoneNumber}`,
         contents: [
           {
