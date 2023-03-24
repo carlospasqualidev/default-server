@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { swaggerLoader, swaggerUI } from '../config/swagger';
 import { authController } from './controllers/auth';
 
-import { checkToken } from './services/server/middlewares/checkToken';
-import { userCanCreate } from './services/server/middlewares/permissions/user';
+import { checkToken } from './utils/middlewares/checkToken';
+import { userCanCreate } from './utils/middlewares/permissions/user';
 
 export const ServerRouter = Router();
 

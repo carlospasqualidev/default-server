@@ -1,5 +1,5 @@
-import { prisma } from '../../../../../prisma';
-import { checkExists } from '../../server/validator';
+import { prisma } from '../../../../prisma';
+import { checkExists } from '../../utils/validator';
 import { IFindPermissionByName } from './types';
 
 export const findPermissionByName = async ({ name }: IFindPermissionByName) => {

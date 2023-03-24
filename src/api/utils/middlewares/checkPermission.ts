@@ -1,4 +1,4 @@
-import { IPermissions } from '../../../../types/token';
+import { IPermissions } from '../../../types/token';
 import { ErrorMessage } from '../error';
 
 interface ICheckPermission {
@@ -27,8 +27,7 @@ export function checkPermission({ toCheck, permissions }: ICheckPermission) {
       if (!toCheck.subPermission) isPermited = true;
 
       for (let j = 0; j < permissions[i].subPermissions.length; j++) {
-        const subPermission = permissions[i].subPermissions[j].name;
-        if (subPermission === toCheck.subPermission) isPermited = true;
+        if (permissions[i].subPermissions[j].name === toCheck.subPermission) isPermited = true;
       }
     }
   }

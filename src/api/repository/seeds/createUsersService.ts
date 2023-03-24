@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { hashSync } from 'bcrypt';
-import { prisma } from '../../../../../prisma';
+import { prisma } from '../../../../prisma';
 import { findPermissionByName } from '../permissions';
 
 export const createAdminService = async () => {

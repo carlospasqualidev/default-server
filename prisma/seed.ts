@@ -1,8 +1,5 @@
 import { prisma } from '.';
-import {
-  createAdminService,
-  createManyPermissionsService,
-} from '../src/api/services/database/seeds';
+import { createAdminService, createManyPermissionsService } from '../src/api/database/seeds';
 
 const main = async () => {
   await createManyPermissionsService();

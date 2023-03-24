@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { prisma } from '../../../../../prisma';
+import { prisma } from '../../../../prisma';
 
 export const createManyPermissionsService = async () => {
   await prisma.permissions.upsert({

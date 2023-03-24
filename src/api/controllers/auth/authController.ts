@@ -1,11 +1,11 @@
 import { compare } from 'bcrypt';
 import { Response, Request } from 'express';
-import { findEmailToLoginService } from '../../services/database/auth';
-import { updateLastAccessService } from '../../services/database/user/updateLastAccessService';
-import { ErrorMessage } from '../../services/server/error';
-import { checkPermission } from '../../services/server/middlewares';
-import { generateToken } from '../../services/server/token';
-import { checkVar } from '../../services/server/validator';
+import { findEmailToLoginService } from '../../repository/auth';
+import { updateLastAccessService } from '../../repository/user';
+import { ErrorMessage } from '../../utils/error';
+import { checkPermission } from '../../utils/middlewares';
+import { generateToken } from '../../utils/token';
+import { checkVar } from '../../utils/validator';
 
 export async function authController(req: Request, res: Response) {
   const { email, password } = req.body;

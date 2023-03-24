@@ -1,6 +1,6 @@
-import { prisma } from '../../../../../prisma';
-import { IPermissions } from '../../../../types/token';
-import { ErrorMessage } from '../../server/error';
+import { prisma } from '../../../../prisma';
+import { IPermissions } from '../../../types/token';
+import { ErrorMessage } from '../../utils/error';
 
 export async function findEmailToLoginService(email: string) {
   const user = await prisma.users.findFirst({
@@ -41,7 +41,7 @@ export async function findEmailToLoginService(email: string) {
   // #region PROCESS DATA
   const permissions: IPermissions[] = [];
 
-  user?.permissions.forEach((permission) => {
+  user.permissions.forEach((permission) => {
     permissions.push({ ...permission.permission });
   });
 

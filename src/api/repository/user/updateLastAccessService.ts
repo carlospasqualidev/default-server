@@ -1,4 +1,4 @@
-import { prisma } from '../../../../../prisma';
+import { prisma } from '../../../../prisma';
 
 export async function updateLastAccessService(userId: string) {
   await prisma.users.update({

@@ -1,4 +1,4 @@
-import { cache } from '../../server/cache';
+import { cache } from '../../utils/cache';
 import { findManyPermissionsService } from '../permissions/findManyPermissionsService';
 import { IAuxiliaryData } from './types';
 

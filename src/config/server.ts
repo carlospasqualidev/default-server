@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import 'express-async-errors';
 
 import { corsOptions } from './corsOptions';
-import { errorHandler } from '../api/services/server/error';
+import { errorHandler } from '../api/utils/error';
 import { ServerRouter } from '../api/routes';
 import { initCron } from './cron';
 
