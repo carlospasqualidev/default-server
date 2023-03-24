@@ -10,6 +10,19 @@ export interface IPermissions {
   }[];
 }
 
+// deve ser igual ao IPermissions, mas manter os isPermited
+export interface IPermissionsToValidate {
+  id: string;
+  name: string;
+  isPermited?: boolean;
+
+  subPermissions: {
+    id: string;
+    name: string;
+    isPermited?: boolean;
+  }[];
+}
+
 export interface IToken {
   user: {
     id: string;

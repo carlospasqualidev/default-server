@@ -1,13 +1,14 @@
-import { IPermissions } from '../../../types/token';
+/* eslint-disable no-param-reassign */
+import { IPermissionsToValidate } from '../../../types/token';
 import { ErrorMessage } from '../error';
 
 interface ICheckPermission {
   toCheck: {
     permission: string;
-    subPermission?: string;
+    subPermission?: string[];
   };
 
-  permissions: IPermissions[];
+  permissions: IPermissionsToValidate[];
 }
 
 export function checkPermission({ toCheck, permissions }: ICheckPermission) {
@@ -20,19 +21,18 @@ export function checkPermission({ toCheck, permissions }: ICheckPermission) {
   }
   // #endregion
 
-  let isPermited = false;
+  const permissionBase = permissions.find((permission) => permission.name === toCheck.permission);
 
-  for (let i = 0; i < permissions.length; i++) {
-    if (permissions[i].name === toCheck.permission) {
-      if (!toCheck.subPermission) isPermited = true;
-
-      for (let j = 0; j < permissions[i].subPermissions.length; j++) {
-        if (permissions[i].subPermissions[j].name === toCheck.subPermission) isPermited = true;
-      }
-    }
+  if (!permissionBase) {
+    throw new ErrorMessage({ statusCode: 401, message: 'Permissão de acesso inválida.' });
   }
+  const subPermissionIsValid = toCheck.subPermission?.every((toCheckSubPermission) =>
+    permissionBase.subPermissions.find(
+      (subPermission) => toCheckSubPermission === subPermission.name,
+    ),
+  );
 
-  if (!isPermited) {
+  if (!subPermissionIsValid) {
     throw new ErrorMessage({ statusCode: 401, message: 'Permissão de acesso inválida.' });
   }
 }
