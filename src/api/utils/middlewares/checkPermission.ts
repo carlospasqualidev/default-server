@@ -26,6 +26,7 @@ export function checkPermission({ toCheck, permissions }: ICheckPermission) {
   if (!permissionBase) {
     throw new ErrorMessage({ statusCode: 401, message: 'Permissão de acesso inválida.' });
   }
+
   const subPermissionIsValid = toCheck.subPermission?.every((toCheckSubPermission) =>
     permissionBase.subPermissions.find(
       (subPermission) => toCheckSubPermission === subPermission.name,

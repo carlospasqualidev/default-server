@@ -7,7 +7,7 @@ export async function userCanCreate(req: Request, _res: Response, next: NextFunc
   checkPermission({
     toCheck: {
       permission: 'user',
-      subPermission: ['create', 'reafghfhd'], // opcional
+      subPermission: ['create', 'read'], // opcional
     },
     permissions,
   });
