@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function sendErrorToAdaLogs(err: any) {
+export function sendErrorToServerLog(err: any) {
   if (
     process.env.DATABASE_URL?.includes('sandbox') ||
     process.env.DATABASE_URL?.includes('production')

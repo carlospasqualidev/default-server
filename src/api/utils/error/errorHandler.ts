@@ -4,7 +4,7 @@
 
 import { NextFunction, Request, Response } from 'express';
 import { ErrorMessage } from './ErrorMessage';
-import { sendErrorToAdaLogs } from './sendErrorToAdaLogs';
+import { sendErrorToServerLog } from './sendErrorToServerLog';
 
 export const errorHandler = async (
   err: Error,
@@ -18,7 +18,7 @@ export const errorHandler = async (
     });
   }
 
-  sendErrorToAdaLogs(err.stack);
+  sendErrorToServerLog(err.stack);
 
   console.error('\n\n\n ❌ Error ❌ \n\n\n', 'Error Message: ', err.stack, '\n\n\n');
 

@@ -1,7 +1,7 @@
 import { compare } from 'bcrypt';
 import { Response, Request } from 'express';
-import { findEmailToLoginService } from '../../repository/auth';
-import { updateLastAccessService } from '../../repository/user';
+import { findEmailToLoginService } from '../../repositories/auth';
+import { updateLastAccessService } from '../../repositories/user';
 import { ErrorMessage } from '../../utils/error';
 import { checkPermission } from '../../utils/middlewares';
 import { generateToken } from '../../utils/token';

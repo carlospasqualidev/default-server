@@ -1,7 +1,7 @@
 // #region IMPORTS
 import { createTransport } from 'nodemailer';
 import { ErrorMessage } from '../error/ErrorMessage';
-import { templateExample } from './templates/templateExemple';
+import { templateExample } from './templates/templateExample';
 import { ITemplateExample } from './templates/types';
 
 // #endregion
@@ -19,7 +19,7 @@ const transporter = createTransport({
 });
 // #endregion
 
-export const sendTemplateExemple = async ({
+export const sendTemplateExample = async ({
   subject,
   toEmail,
   attachments,
