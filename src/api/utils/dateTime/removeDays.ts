@@ -3,6 +3,10 @@ export interface IRemoveDays {
   days: number;
 }
 
-export function removeUTCDays({ date, days }: IRemoveDays) {
-  return date.setDate(date.getUTCDate() - days);
+export function removeDays({ date, days }: IRemoveDays) {
+  const newDate = new Date(date);
+
+  date.setDate(date.getDate() - days);
+
+  return newDate;
 }

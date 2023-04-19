@@ -3,6 +3,10 @@ export interface IAddDays {
   days: number;
 }
 
-export function addUTCDays({ date, days }: IAddDays) {
-  return date.setDate(date.getUTCDate() + days);
+export function addDays({ date, days }: IAddDays) {
+  const newDate = new Date(date);
+
+  newDate.setDate(newDate.getDate() + days);
+
+  return newDate;
 }

@@ -1,8 +1,8 @@
 // #region IMPORTS
 import { createTransport } from 'nodemailer';
-import { ErrorMessage } from '../error/ErrorMessage';
 import { templateExample } from './templates/templateExample';
 import { ITemplateExample } from './templates/types';
+import { sendErrorToServerLog } from '../error/sendErrorToServerLog';
 
 // #endregion
 
@@ -41,10 +41,9 @@ export const sendTemplateExample = async ({
     }),
   };
 
-  await transporter.sendMail(mail).catch(() => {
-    throw new ErrorMessage({
-      statusCode: 400,
-      message: 'Oops! Encontramos um problema ao enviar o e-mail.',
-    });
-  });
+  try {
+    await transporter.sendMail(mail);
+  } catch (error) {
+    sendErrorToServerLog(error);
+  }
 };
