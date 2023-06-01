@@ -5,17 +5,17 @@ import 'express-async-errors';
 
 import { corsOptions } from './corsOptions';
 import { errorHandler } from '../api/utils/error';
-import { ServerRouter } from '../api/routes';
+import { serverRouter } from '../api/routes';
 import { initCron } from './cron';
 
-export const Server = express();
+export const server = express();
 
 initCron();
 
-Server.use(cors(corsOptions));
-Server.use(express.json());
+server.use(cors(corsOptions));
+server.use(express.json());
 
-Server.use('/api', ServerRouter);
+server.use('/api', serverRouter);
 
-Server.use(helmet());
-Server.use(errorHandler);
+server.use(helmet());
+server.use(errorHandler);

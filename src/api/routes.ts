@@ -2,10 +2,10 @@ import { Router } from 'express';
 import { swaggerLoader, swaggerUI } from '../config/swagger';
 import { authController } from './controllers/auth';
 
-export const ServerRouter = Router();
+export const serverRouter = Router();
 
-ServerRouter.use('/docs', swaggerUI.serve, (_req: any, res: any) => {
+serverRouter.use('/docs', swaggerUI.serve, (_req: any, res: any) => {
   res.send(swaggerUI.generateHTML(swaggerLoader));
 });
 
-ServerRouter.post('/login', authController);
+serverRouter.post('/login', authController);

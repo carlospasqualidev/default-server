@@ -1,4 +1,5 @@
 import { sign } from 'jsonwebtoken';
+import 'dotenv/config';
 
 export const generateToken = (data: any) => {
   const secret: any = process.env.JWT_SECRET;

@@ -3,6 +3,7 @@ import { createTransport } from 'nodemailer';
 import { templateExample } from './templates/templateExample';
 import { ITemplateExample } from './templates/types';
 import { sendErrorToServerLog } from '../error/sendErrorToServerLog';
+import 'dotenv/config';
 
 // #endregion
 
