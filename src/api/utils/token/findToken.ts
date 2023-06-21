@@ -2,7 +2,7 @@ import { ITokenService } from './types';
 import { ErrorMessage } from '../error/ErrorMessage';
 import { prisma } from '../../../../prisma';
 
-export const findToken = async ({ token }: ITokenService) => {
+export async function findToken({ token }: ITokenService) {
   const tokenData = await prisma.tokens.findFirst({
     where: {
       token,
@@ -10,7 +10,7 @@ export const findToken = async ({ token }: ITokenService) => {
     },
   });
 
-  if (tokenData === null || tokenData === undefined) {
+  if (!tokenData) {
     throw new ErrorMessage({
       statusCode: 400,
       message: 'Token de ativação inválido ou já utilizado.',
@@ -18,4 +18,4 @@ export const findToken = async ({ token }: ITokenService) => {
   }
 
   return tokenData;
-};
+}

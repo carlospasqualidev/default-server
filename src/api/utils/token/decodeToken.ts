@@ -2,7 +2,7 @@ import { verify } from 'jsonwebtoken';
 import { ErrorMessage } from '../error/ErrorMessage';
 import 'dotenv/config';
 
-export const decodeToken = (token: string) => {
+export function decodeToken(token: string) {
   try {
     return verify(token, process.env.JWT_SECRET!);
   } catch (error) {
@@ -11,4 +11,4 @@ export const decodeToken = (token: string) => {
       message: 'Token de ativação inválido ou já utilizado.',
     });
   }
-};
+}

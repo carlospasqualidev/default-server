@@ -20,14 +20,14 @@ const transporter = createTransport({
 });
 // #endregion
 
-export const sendTemplateExample = async ({
+export async function sendTemplateExample({
   subject,
   toEmail,
   attachments,
   field1,
   field2,
   field3,
-}: ITemplateExample) => {
+}: ITemplateExample) {
   const mail = {
     from: `${subject} <${process.env.EMAIL_USERNAME}>`,
     to: toEmail,
@@ -47,4 +47,4 @@ export const sendTemplateExample = async ({
   } catch (error) {
     sendErrorToServerLog(error);
   }
-};
+}

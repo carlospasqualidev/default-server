@@ -6,12 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ErrorMessage } from './ErrorMessage';
 import { sendErrorToServerLog } from './sendErrorToServerLog';
 
-export const errorHandler = async (
-  err: Error,
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-) => {
+export async function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {
   if (err instanceof ErrorMessage) {
     return res.status(err.statusCode).json({
       message: err.message,
@@ -25,4 +20,4 @@ export const errorHandler = async (
   return res.status(500).json({
     message: `Oops! Encontramos um problema e nossa equipe foi notificada.`,
   });
-};
+}

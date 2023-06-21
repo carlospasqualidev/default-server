@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import cron from 'node-cron';
 
 export function initCron() {
