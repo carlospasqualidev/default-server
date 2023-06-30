@@ -1,9 +1,8 @@
-image: node:latest
+image: node:18.16.1
 
 before_script:
   - apt-get update -qy
   - apt-get install -y ruby-dev
-  - gem install dpl
 
 stages:
   - build
@@ -11,14 +10,14 @@ stages:
   - production_deploy
 
 build:
-    stage: build
-    script:
-      - yarn add typescript
-      - yarn build
-      - ls
-    only:
-      - develop
-      - master
+  stage: build
+  script:
+    - npm install typescript
+    - npm run build
+    - ls
+  only:
+    - develop
+    - master
 
 staging_deploy:
   environment: review/develop

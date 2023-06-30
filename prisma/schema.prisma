@@ -68,8 +68,8 @@ model usersPermissions {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  permission permissions @relation(fields: [permissionId], references: [id])
-  user       users       @relation(fields: [userId], references: [id])
+  permission permissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  user       users       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 //#endregion
