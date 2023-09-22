@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --exit-child --transpile-only --inspect --ignore-watch node_modules --clear src/app.ts",
+    "dev": "ts-node-dev --respawn --exit-child --transpile-only --ignore-watch node_modules --clear src/app.ts",
     "start": "node dist/src/app.js",
     "prepare": "husky install",
     "build": "tsc",
@@ -31,9 +31,7 @@
     "multer-sharp-s3": "^0.2.5",
     "node-cache": "^5.1.2",
     "node-cron": "^3.0.2",
-    "nodemailer": "^6.8.0",
-    "swagger-ui-express": "^4.6.2",
-    "yamljs": "^0.3.0"
+    "nodemailer": "^6.8.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -44,8 +42,6 @@
     "@types/node": "^18.11.12",
     "@types/node-cron": "^3.0.6",
     "@types/nodemailer": "^6.4.6",
-    "@types/swagger-ui-express": "^4.1.3",
-    "@types/yamljs": "^0.2.31",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
     "eslint": "^7.2.1",

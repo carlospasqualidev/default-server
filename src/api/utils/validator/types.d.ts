@@ -1,8 +1,8 @@
-export interface ICheckVar {
-  variable: any;
+export interface ICheckValues {
+  value: any;
   label: string;
-  type: 'string' | 'number' | 'boolean';
-  isOptional?: boolean;
+  type: 'string' | 'int' | 'float' | 'boolean' | 'date' | 'json';
+  required?: boolean;
 }
 
 export interface ICheckExistsAndNot {

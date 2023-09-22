@@ -7,7 +7,7 @@ export function sendErrorToServerLog(err: any) {
     process.env.DATABASE_URL?.includes('production')
   ) {
     axios.post('https://ada-logs.herokuapp.com/api/errors/create', {
-      projectName: 'changehere',
+      projectName: 'CHANGEHERE',
       environment: process.env.DATABASE_URL,
       side: 'Server',
       errorStack: err.stack,

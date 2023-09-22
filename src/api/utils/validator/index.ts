@@ -1,3 +1,3 @@
-export * from './checkVar';
+export * from './checkValues';
 export * from './checkExists';
 export * from './checkExists';

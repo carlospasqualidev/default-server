@@ -1,18 +1,19 @@
 import { compare } from 'bcrypt';
 import { Response, Request } from 'express';
-import { findEmailToLoginService } from '../../repositories/auth';
 import { ErrorMessage } from '../../utils/error';
 import { checkPermission } from '../../utils/middlewares';
 import { generateToken } from '../../utils/token';
-import { checkVar } from '../../utils/validator';
-import { updateUsersService } from '../../repositories/users';
+
+import { findEmailToLoginService } from '../../services/auth';
+import { updateUsersService } from '../../services/users';
+import { checkValues } from '../../utils/validator';
 
 export async function authController(req: Request, res: Response) {
   const { email, password } = req.body;
 
-  checkVar([
-    { label: 'email', type: 'string', variable: email },
-    { label: 'senha', type: 'string', variable: password },
+  checkValues([
+    { label: 'email', type: 'string', value: email },
+    { label: 'senha', type: 'string', value: password },
   ]);
 
   const { user, permissions } = await findEmailToLoginService(email);
@@ -21,7 +22,7 @@ export async function authController(req: Request, res: Response) {
 
   if (!isValidPassword) {
     throw new ErrorMessage({
-      statusCode: 404,
+      statusCode: 401,
       message: 'E-mail ou senha incorreto.',
     });
   }
@@ -42,10 +43,11 @@ export async function authController(req: Request, res: Response) {
 
   await updateUsersService([
     {
-      id: user.id,
-
       data: {
         lastAccess: new Date(),
+      },
+      where: {
+        id: user.id,
       },
     },
   ]);
