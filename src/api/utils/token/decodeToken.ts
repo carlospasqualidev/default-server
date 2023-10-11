@@ -7,7 +7,7 @@ export function decodeToken(token: string) {
     return verify(token, process.env.JWT_SECRET!);
   } catch (error) {
     throw new ErrorMessage({
-      statusCode: 400,
+      statusCode: '400 BAD REQUEST',
       message: 'Token de ativação inválido ou já utilizado.',
     });
   }

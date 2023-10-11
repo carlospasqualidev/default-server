@@ -9,7 +9,7 @@ export function checkToken(req: Request, _res: Response, next: NextFunction) {
 
   if (!authorization) {
     throw new ErrorMessage({
-      statusCode: 401,
+      statusCode: '401 UNAUTHORIZED',
       message: 'Token inválido.',
     });
   }
@@ -24,7 +24,7 @@ export function checkToken(req: Request, _res: Response, next: NextFunction) {
     next();
   } catch (error) {
     throw new ErrorMessage({
-      statusCode: 401,
+      statusCode: '401 UNAUTHORIZED',
       message: 'Token inválido.',
     });
   }

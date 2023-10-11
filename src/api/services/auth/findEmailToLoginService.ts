@@ -33,7 +33,7 @@ export async function findEmailToLoginService(email: string) {
 
   if (!user) {
     throw new ErrorMessage({
-      statusCode: 401,
+      statusCode: '401 UNAUTHORIZED',
       message: 'E-mail ou senha incorreto.',
     });
   }

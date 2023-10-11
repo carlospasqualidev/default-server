@@ -12,7 +12,7 @@ export async function findToken({ token }: ITokenService) {
 
   if (!tokenData) {
     throw new ErrorMessage({
-      statusCode: 400,
+      statusCode: '400 BAD REQUEST',
       message: 'Token de ativação inválido ou já utilizado.',
     });
   }

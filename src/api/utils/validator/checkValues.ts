@@ -3,21 +3,21 @@ import { ICheckValues } from './types';
 
 function invalidType({ label, type }: { label: string; type: string }) {
   throw new ErrorMessage({
-    statusCode: 400,
+    statusCode: '400 BAD REQUEST',
     message: `A informação: ${label} deve possuir o tipo ${type}.`,
   });
 }
 
 function invalidFormat(label: string) {
   throw new ErrorMessage({
-    statusCode: 400,
+    statusCode: '400 BAD REQUEST',
     message: `A informação: ${label} deve possuir um formato válido.`,
   });
 }
 
 function invalidTypeLength({ label, type }: { label: string; type: string }) {
   throw new ErrorMessage({
-    statusCode: 400,
+    statusCode: '400 BAD REQUEST',
     message: `A informação: ${label} ultrapassa o tamanho do tipo ${type}.`,
   });
 }
@@ -31,7 +31,7 @@ export function checkValues(values: ICheckValues[]) {
 
     if (required && (value === null || value === undefined)) {
       throw new ErrorMessage({
-        statusCode: 400,
+        statusCode: '400 BAD REQUEST',
         message: `Verifique o valor da informação: ${label} e tente novamente.`,
       });
     }

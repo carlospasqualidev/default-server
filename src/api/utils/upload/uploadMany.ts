@@ -37,12 +37,12 @@ export async function uploadMany(req: Request, res: Response) {
   fileUpload(req, res, (error) => {
     if (error) {
       throw new ErrorMessage({
-        statusCode: 400,
+        statusCode: '400 BAD REQUEST',
         message: 'Erro ao efetuar upload do arquivo.',
       });
     } else if (req.files === undefined || req.files.length === 0) {
       throw new ErrorMessage({
-        statusCode: 400,
+        statusCode: '400 BAD REQUEST',
         message: 'Erro ao efetuar upload do arquivo.',
       });
     } else {

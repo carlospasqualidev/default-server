@@ -21,7 +21,7 @@ export function checkPermission({ toCheck, permissions }: ICheckPermission) {
   // #region CHECKS
   if (!toCheck || !permissions.length) {
     throw new ErrorMessage({
-      statusCode: 403,
+      statusCode: '403 FORBIDDEN',
       message: 'Permissões inválidas.',
     });
   }
@@ -30,7 +30,10 @@ export function checkPermission({ toCheck, permissions }: ICheckPermission) {
   const permissionBase = permissions.find((permission) => permission.name === toCheck.permission);
 
   if (!permissionBase) {
-    throw new ErrorMessage({ statusCode: 403, message: 'Permissão de acesso inválida.' });
+    throw new ErrorMessage({
+      statusCode: '403 FORBIDDEN',
+      message: 'Permissão de acesso inválida.',
+    });
   }
 
   const subPermissionIsValid = toCheck.subPermission?.every((toCheckSubPermission) =>
@@ -40,6 +43,9 @@ export function checkPermission({ toCheck, permissions }: ICheckPermission) {
   );
 
   if (!subPermissionIsValid) {
-    throw new ErrorMessage({ statusCode: 403, message: 'Permissão de acesso inválida.' });
+    throw new ErrorMessage({
+      statusCode: '403 FORBIDDEN',
+      message: 'Permissão de acesso inválida.',
+    });
   }
 }

@@ -13,7 +13,7 @@ export async function errorHandler(err: Error, _req: Request, res: Response, _ne
     });
   }
 
-  sendErrorToServerLog(err.stack);
+  sendErrorToServerLog({ stack: err.stack });
 
   console.error('\n\n\n ❌ Error ❌ \n\n\n', 'Error Message: ', err.stack, '\n\n\n');
 

@@ -22,14 +22,14 @@ export async function authController(req: Request, res: Response) {
 
   if (!isValidPassword) {
     throw new ErrorMessage({
-      statusCode: 401,
+      statusCode: '401 UNAUTHORIZED',
       message: 'E-mail ou senha incorreto.',
     });
   }
 
   if (user.isBlocked) {
     throw new ErrorMessage({
-      statusCode: 401,
+      statusCode: '401 UNAUTHORIZED',
       message: 'Sua conta está bloqueada, entre em contato com a administração.',
     });
   }
