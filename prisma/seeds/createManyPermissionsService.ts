@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import { prisma } from '../../../../prisma';
+import { prisma } from '../prismaConfig';
 
-export const createManyPermissionsService = async () => {
+export async function createManyPermissionsService() {
   await prisma.permissions.upsert({
     where: { name: 'admin' },
     update: {},
@@ -56,4 +56,4 @@ export const createManyPermissionsService = async () => {
   });
 
   console.log('Permissions inserted.');
-};
+}

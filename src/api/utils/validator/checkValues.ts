@@ -1,5 +1,12 @@
 import { ErrorMessage } from '../error';
-import { ICheckValues } from './types';
+
+interface ICheckValues {
+  value: any;
+  label: string;
+  type: 'string' | 'int' | 'float' | 'boolean' | 'date' | 'json';
+  required?: boolean;
+  allowZero?: boolean;
+}
 
 function invalidType({ label, type }: { label: string; type: string }) {
   throw new ErrorMessage({
@@ -23,20 +30,22 @@ function invalidTypeLength({ label, type }: { label: string; type: string }) {
 }
 
 export function checkValues(values: ICheckValues[]) {
-  values.forEach(({ label, type, value, required: requiredParam }) => {
-    const required =
-      requiredParam === undefined || requiredParam === null || typeof requiredParam !== 'boolean'
-        ? true
-        : requiredParam;
-
-    if (required && (value === null || value === undefined)) {
+  values.forEach(({ label, type, value, required = true, allowZero = false }) => {
+    if (required && (value === null || value === undefined || value === '')) {
       throw new ErrorMessage({
         statusCode: '400 BAD REQUEST',
         message: `Verifique o valor da informação: ${label} e tente novamente.`,
       });
     }
 
-    if (!required && (value === null || value === undefined || value === '')) return;
+    if (!allowZero && value === 0) {
+      throw new ErrorMessage({
+        statusCode: '400 BAD REQUEST',
+        message: `A informação: ${label} não pode ser zero.`,
+      });
+    }
+
+    if (!required && (value === null || value === undefined)) return;
 
     switch (type) {
       case 'string':

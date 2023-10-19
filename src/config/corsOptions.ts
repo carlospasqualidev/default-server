@@ -1,6 +1,6 @@
 import cors from 'cors';
 
-// CHANGE HERE
+// CHANGEHERE
 const allowedOrigins = ['http://localhost:3000'];
 
 export const corsOptions: cors.CorsOptions = {

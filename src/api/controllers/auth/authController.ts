@@ -1,11 +1,10 @@
 import { compare } from 'bcrypt';
 import { Response, Request } from 'express';
 import { ErrorMessage } from '../../utils/error';
-import { checkPermission } from '../../utils/middlewares';
+import { checkPermissionService } from '../../utils/middlewares/services';
 import { generateToken } from '../../utils/token';
 
 import { findEmailToLoginService } from '../../services/auth';
-import { updateUsersService } from '../../services/users';
 import { checkValues } from '../../utils/validator';
 
 export async function authController(req: Request, res: Response) {
@@ -34,23 +33,23 @@ export async function authController(req: Request, res: Response) {
     });
   }
 
-  checkPermission({
+  checkPermissionService({
     toCheck: {
       permission: 'user',
     },
     permissions,
   });
 
-  await updateUsersService([
-    {
-      data: {
-        lastAccess: new Date(),
-      },
-      where: {
-        id: user.id,
-      },
-    },
-  ]);
+  // await updateUsersService([
+  //   {
+  //     data: {
+  //       lastAccess: new Date(),
+  //     },
+  //     where: {
+  //       id: user.id,
+  //     },
+  //   },
+  // ]);
 
   const token = generateToken({
     user: {

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { hashSync } from 'bcrypt';
-import { prisma } from '../../../../prisma';
-import { findPermissionByName } from '../permissions';
+import { findPermissionByName } from '../../src/api/services/permissions';
+import { prisma } from '../prismaConfig';
 
 export const createAdminService = async () => {
   const permissionAdmin = await findPermissionByName({ name: 'admin' });
