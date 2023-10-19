@@ -4,9 +4,5 @@ export interface IAddDays {
 }
 
 export function addDays({ date, days }: IAddDays) {
-  const newDate = new Date(date);
-
-  newDate.setDate(newDate.getDate() + days);
-
-  return newDate;
+  return new Date(date.setDate(date.getDate() + days));
 }

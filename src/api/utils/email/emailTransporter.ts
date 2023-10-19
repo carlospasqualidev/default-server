@@ -1,9 +1,10 @@
 // #region IMPORTS
 import { createTransport } from 'nodemailer';
 import { templateExample } from './templates/templateExample';
-import { ITemplateExample } from './templates/types';
+import { ISendTemplateExample } from './templates/types';
 import { sendErrorToServerLog } from '../error/sendErrorToServerLog';
 import 'dotenv/config';
+import { ErrorMessage } from '../error';
 
 // #endregion
 
@@ -27,14 +28,13 @@ export async function sendTemplateExample({
   field1,
   field2,
   field3,
-}: ITemplateExample) {
+}: ISendTemplateExample) {
   const mail = {
     from: `${subject} <${process.env.EMAIL_USERNAME}>`,
     to: toEmail,
     subject: `Ada Software House - ${subject}`,
     attachments,
     html: templateExample({
-      toEmail,
       subject,
       field1,
       field2,
@@ -42,9 +42,11 @@ export async function sendTemplateExample({
     }),
   };
 
-  try {
-    await transporter.sendMail(mail);
-  } catch (error) {
+  await transporter.sendMail(mail).catch((error) => {
     sendErrorToServerLog(error);
-  }
+    throw new ErrorMessage({
+      statusCode: '400 BAD REQUEST',
+      message: 'Oops! Encontramos um problema ao enviar o email.',
+    });
+  });
 }

@@ -4,9 +4,5 @@ export interface IRemoveDays {
 }
 
 export function removeDays({ date, days }: IRemoveDays) {
-  const newDate = new Date(date);
-
-  newDate.setDate(date.getDate() - days);
-
-  return newDate;
+  return new Date(date.setDate(date.getDate() - days));
 }

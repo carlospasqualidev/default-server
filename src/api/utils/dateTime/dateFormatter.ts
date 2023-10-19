@@ -1,3 +1,3 @@
-export function dateFormatter(date: string | Date) {
-  return new Date(date).toLocaleDateString('pt-BR');
+export function dateFormatter(date: Date) {
+  return date.toLocaleDateString('pt-BR');
 }

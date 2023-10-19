@@ -12,7 +12,7 @@ datasource db {
 
 //#region TOKENS
 model tokens {
-  id        String   @id @unique @default(uuid())
+  id        String   @id @unique @default(nanoid(12))
   token     String   @unique
   hasUsed   Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -23,7 +23,7 @@ model tokens {
 
 //#region PERMISSIONS
 model permissions {
-  id        String   @id @unique @default(uuid())
+  id        String   @id @unique @default(nanoid(12))
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -33,7 +33,7 @@ model permissions {
 }
 
 model subPermissions {
-  id        String   @id @unique @default(uuid())
+  id        String   @id @unique @default(nanoid(12))
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,7 +46,7 @@ model subPermissions {
 
 //#region USERS
 model users {
-  id         String    @id @unique @default(uuid())
+  id         String    @id @unique @default(nanoid(12))
   name       String
   email      String    @unique
   image      String?
@@ -61,7 +61,7 @@ model users {
 }
 
 model usersPermissions {
-  id           String @id @unique @default(uuid())
+  id           String @id @unique @default(nanoid(12))
   permissionId String
   userId       String
 
