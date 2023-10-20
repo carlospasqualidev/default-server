@@ -17,7 +17,7 @@
   "author": "Carlos Pasquali Dev",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^4.7.1",
+    "@prisma/client": "^5.4.2",
     "aws-sdk": "^2.1276.0",
     "axios": "^1.2.1",
     "bcrypt": "^5.1.0",
@@ -29,7 +29,6 @@
     "jsonwebtoken": "^9.0.0",
     "multer": "^1.4.5-lts.1",
     "multer-sharp-s3": "^0.2.5",
-    "node-cache": "^5.1.2",
     "nodemailer": "^6.8.0"
   },
   "devDependencies": {
@@ -52,7 +51,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
-    "prisma": "^4.7.1",
+    "prisma": "^5.4.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "*"
   }

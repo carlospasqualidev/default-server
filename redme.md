@@ -2,5 +2,4 @@
 
 validacoes de erros sem utilizar o throw
 criar exemplos das funcoes de data
-criar logs de acesso para usuarios
-mudar UUID para um menor
+aumentar a seguranca ao validar a permissao do usuario(esta validando o token)

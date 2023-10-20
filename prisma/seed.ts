@@ -1,9 +1,17 @@
 import { prisma } from '.';
-import { createAdminService, createManyPermissionsService } from './seeds';
+import {
+  upsertAccessPermissions,
+  upsertBackofficeUser,
+  upsertGenders,
+  upsertPersonPermissions,
+} from './seeds';
 
 const main = async () => {
-  await createManyPermissionsService();
-  await createAdminService();
+  await upsertAccessPermissions();
+  await upsertPersonPermissions();
+  await upsertGenders();
+
+  await upsertBackofficeUser();
 };
 main()
   .then(async () => {

@@ -11,7 +11,7 @@ export interface IPermissions {
 }
 
 // deve ser igual ao IPermissions, mas manter os isPermited
-export interface IPermissionsToValidate {
+export interface IPersonPermissionsToValidate {
   id: string;
   name: string;
   isPermited?: boolean;

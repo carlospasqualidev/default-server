@@ -1,2 +1,5 @@
-export * from './createManyPermissionsService';
-export * from './createUsersService';
+export * from './upsertPersonPermissions';
+export * from './upsertGenders';
+export * from './upsertAccessPermissions';
+
+export * from './upsertBackofficeUser';

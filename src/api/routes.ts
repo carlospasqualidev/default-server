@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { authController } from './controllers/auth';
+import { backofficeRouter } from './controllers/backoffice/backoffice.routes';
 
 export const serverRouter = Router();
 
-serverRouter.post('/login', authController);
+serverRouter.use('/backoffice', backofficeRouter);

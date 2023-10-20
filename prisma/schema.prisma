@@ -12,9 +12,10 @@ datasource db {
 
 //#region TOKENS
 model tokens {
-  id        String   @id @unique @default(nanoid(12))
-  token     String   @unique
-  hasUsed   Boolean  @default(false)
+  id      String  @id @unique @default(nanoid(12))
+  token   String  @unique
+  hasUsed Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -22,54 +23,210 @@ model tokens {
 //#endregion
 
 //#region PERMISSIONS
-model permissions {
-  id        String   @id @unique @default(nanoid(12))
-  name      String   @unique
+model personPermissions {
+  id   String @id @unique @default(nanoid(12))
+  name String @unique
+  type String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users          usersPermissions[]
-  subPermissions subPermissions[]
+  subPermissions  personSubPermissions[]
+  personCompanies personCompanies[]
 }
 
-model subPermissions {
-  id        String   @id @unique @default(nanoid(12))
-  name      String
+model personSubPermissions {
+  id           String @id @unique @default(nanoid(12))
+  permissionId String
+  name         String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  permissionsId String
-  permissions   permissions @relation(fields: [permissionsId], references: [id])
+  permissions personPermissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+}
+
+model accessPermissions {
+  id   String @id @unique @default(nanoid(12))
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users userAccessPermissions[]
+}
+
+//#endregion
+
+//#region ACCESS
+model accesses {
+  id          String @id @unique @default(nanoid(12))
+  environment String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users userAccesses[]
+}
+
+//#endregion
+
+//#region GENDERS
+model genders {
+  id    String @id @default(nanoid(12))
+  name  String @unique
+  label String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  persons persons[]
+}
+
+//#endregion
+
+//#region ADRESSES
+model addresses {
+  id           String  @id @unique @default(nanoid(12))
+  label        String?
+  zipCode      String?
+  country      String
+  state        String
+  city         String
+  neighborhood String?
+  street       String?
+  number       String?
+  complement   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company companyAddresses?
+  person  personAddresses?
+}
+
+//#endregion
+
+//#region COMPANIES
+
+model companies {
+  id           String  @id @default(nanoid(12))
+  displayName  String
+  legalName    String?
+  fantasyName  String?
+  documentCode String? @unique
+  image        String?
+  isBlocked    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address companyAddresses[]
+  persons personCompanies[]
+}
+
+model companyAddresses {
+  id        String @id @unique @default(nanoid(12))
+  companyId String
+  addressId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address addresses @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  company companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+//#endregion
+
+//#region PERSONS
+
+model persons {
+  id             String    @id @default(nanoid(12))
+  name           String
+  surname        String?
+  genderId       String
+  birthDate      DateTime?
+  birthCountry   String?
+  documentNumber String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      users?
+  address   personAddresses[]
+  gender    genders           @relation(fields: [genderId], references: [id], onDelete: Cascade)
+  companies personCompanies[]
+}
+
+model personAddresses {
+  id        String  @id @unique @default(nanoid(12))
+  personId  String?
+  addressId String  @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address addresses @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  persons persons?  @relation(fields: [personId], references: [id], onDelete: Cascade)
+}
+
+model personCompanies {
+  id           String @id @default(uuid())
+  companyId    String
+  personId     String
+  permissionId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company    companies         @relation(fields: [companyId], references: [id])
+  person     persons           @relation(fields: [personId], references: [id])
+  permission personPermissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 }
 
 //#endregion
 
 //#region USERS
 model users {
-  id         String    @id @unique @default(nanoid(12))
-  name       String
-  email      String    @unique
-  image      String?
-  customUrl  String?
-  isBlocked  Boolean   @default(false)
-  password   String
-  lastAccess DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-
-  permissions usersPermissions[]
-}
-
-model usersPermissions {
-  id           String @id @unique @default(nanoid(12))
-  permissionId String
-  userId       String
+  id        String  @id @unique @default(nanoid(12))
+  personId  String? @unique
+  username  String  @unique
+  email     String  @unique
+  isBlocked Boolean @default(false)
+  password  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  permission permissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-  user       users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accesses    userAccesses[]
+  person      persons?                @relation(fields: [personId], references: [id])
+  permissions userAccessPermissions[]
+}
+
+model userAccesses {
+  id String @id @unique @default(nanoid(12))
+
+  accessId String
+  userId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  access accesses @relation(fields: [accessId], references: [id], onDelete: Cascade)
+}
+
+model userAccessPermissions {
+  id           String @id @unique @default(nanoid(12))
+  userId       String
+  permissionId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       users             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission accessPermissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 }
 
 //#endregion

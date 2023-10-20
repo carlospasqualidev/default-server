@@ -1,1 +1,1 @@
-export * from './checkPermissionService';
+export * from './checkPermissionsService';
