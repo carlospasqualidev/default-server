@@ -1,23 +1,35 @@
-import { IPersonPermissionsToValidate } from '../../../../types/token';
 import { ErrorMessage } from '../../error';
 
-interface ICheckPermission {
-  toCheck: {
-    permission: string;
-    subPermission?: string[];
-  };
-
-  permissions: IPersonPermissionsToValidate[];
+// #region TYPES
+interface IToCheck {
+  name: string;
+  subPermissions?: string[] | undefined;
 }
+
+export interface IPermissions {
+  name: string;
+  subPermissions?:
+    | {
+        name: string;
+      }[]
+    | undefined;
+}
+
+export interface ICheckPermissionService {
+  toCheck: IToCheck;
+  permissions: IPermissions[];
+}
+
+// #endregion
 
 /**
  *@example checkPersonPermission({
-              toCheck: { permission: 'user',
-              subPermission: ['create', 'read', 'update', 'delete'] },
+              toCheck: { name: 'user',
+              subPermissions: ['create', 'read', 'update', 'delete'] }, //optional
               permissions,
   });
  */
-export function checkPersonPermissionService({ toCheck, permissions }: ICheckPermission) {
+export function checkPersonPermissionService({ toCheck, permissions }: ICheckPermissionService) {
   // #region CHECKS
 
   if (!toCheck || !permissions || !permissions.length) {
@@ -28,7 +40,7 @@ export function checkPersonPermissionService({ toCheck, permissions }: ICheckPer
   }
   // #endregion
 
-  const permissionBase = permissions.find((permission) => permission.name === toCheck.permission);
+  const permissionBase = permissions.find((permission) => permission.name === toCheck.name);
 
   if (!permissionBase) {
     throw new ErrorMessage({
@@ -37,8 +49,10 @@ export function checkPersonPermissionService({ toCheck, permissions }: ICheckPer
     });
   }
 
-  const subPermissionIsValid = toCheck.subPermission?.every((toCheckSubPermission) =>
-    permissionBase.subPermissions.find(
+  if (!toCheck.subPermissions) return;
+
+  const subPermissionIsValid = toCheck.subPermissions?.every((toCheckSubPermission) =>
+    permissionBase.subPermissions?.find(
       (subPermission) => toCheckSubPermission === subPermission.name,
     ),
   );

@@ -10,35 +10,46 @@ CREATE TABLE "tokens" (
 );
 
 -- CreateTable
-CREATE TABLE "personPermissions" (
+CREATE TABLE "permissions" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
+    "permissionTypeId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "personPermissions_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "permissions_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "personSubPermissions" (
+CREATE TABLE "permissionSublevels" (
     "id" TEXT NOT NULL,
     "permissionId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "personSubPermissions_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "permissionSublevels_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "accessPermissions" (
+CREATE TABLE "permissionTypes" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "accessPermissions_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "permissionTypes_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "userAccessPermissions" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "permissionId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "userAccessPermissions_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -147,7 +158,7 @@ CREATE TABLE "personCompanies" (
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "personId" TEXT NOT NULL,
+    "personId" TEXT,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "isBlocked" BOOLEAN NOT NULL DEFAULT false,
@@ -159,25 +170,14 @@ CREATE TABLE "users" (
 );
 
 -- CreateTable
-CREATE TABLE "usersAccesses" (
+CREATE TABLE "userAccesses" (
     "id" TEXT NOT NULL,
     "accessId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "usersAccesses_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "userAccessPermissions" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "permissionId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "userAccessPermissions_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "userAccesses_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -187,19 +187,22 @@ CREATE UNIQUE INDEX "tokens_id_key" ON "tokens"("id");
 CREATE UNIQUE INDEX "tokens_token_key" ON "tokens"("token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "personPermissions_id_key" ON "personPermissions"("id");
+CREATE UNIQUE INDEX "permissions_id_key" ON "permissions"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "personPermissions_name_key" ON "personPermissions"("name");
+CREATE UNIQUE INDEX "permissions_name_key" ON "permissions"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "personSubPermissions_id_key" ON "personSubPermissions"("id");
+CREATE UNIQUE INDEX "permissionSublevels_id_key" ON "permissionSublevels"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "accessPermissions_id_key" ON "accessPermissions"("id");
+CREATE UNIQUE INDEX "permissionTypes_id_key" ON "permissionTypes"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "accessPermissions_name_key" ON "accessPermissions"("name");
+CREATE UNIQUE INDEX "permissionTypes_name_key" ON "permissionTypes"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "userAccessPermissions_id_key" ON "userAccessPermissions"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "accesses_id_key" ON "accesses"("id");
@@ -241,13 +244,19 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "usersAccesses_id_key" ON "usersAccesses"("id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "userAccessPermissions_id_key" ON "userAccessPermissions"("id");
+CREATE UNIQUE INDEX "userAccesses_id_key" ON "userAccesses"("id");
 
 -- AddForeignKey
-ALTER TABLE "personSubPermissions" ADD CONSTRAINT "personSubPermissions_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "personPermissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "permissions" ADD CONSTRAINT "permissions_permissionTypeId_fkey" FOREIGN KEY ("permissionTypeId") REFERENCES "permissionTypes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "permissionSublevels" ADD CONSTRAINT "permissionSublevels_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "userAccessPermissions" ADD CONSTRAINT "userAccessPermissions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "userAccessPermissions" ADD CONSTRAINT "userAccessPermissions_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "companyAddresses" ADD CONSTRAINT "companyAddresses_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "addresses"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -271,19 +280,10 @@ ALTER TABLE "personCompanies" ADD CONSTRAINT "personCompanies_companyId_fkey" FO
 ALTER TABLE "personCompanies" ADD CONSTRAINT "personCompanies_personId_fkey" FOREIGN KEY ("personId") REFERENCES "persons"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "personCompanies" ADD CONSTRAINT "personCompanies_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "personPermissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_personId_fkey" FOREIGN KEY ("personId") REFERENCES "persons"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_personId_fkey" FOREIGN KEY ("personId") REFERENCES "persons"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "userAccesses" ADD CONSTRAINT "userAccesses_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "usersAccesses" ADD CONSTRAINT "usersAccesses_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "usersAccesses" ADD CONSTRAINT "usersAccesses_accessId_fkey" FOREIGN KEY ("accessId") REFERENCES "accesses"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "userAccessPermissions" ADD CONSTRAINT "userAccessPermissions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "userAccessPermissions" ADD CONSTRAINT "userAccessPermissions_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "accessPermissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "userAccesses" ADD CONSTRAINT "userAccesses_accessId_fkey" FOREIGN KEY ("accessId") REFERENCES "accesses"("id") ON DELETE CASCADE ON UPDATE CASCADE;

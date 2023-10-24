@@ -6,7 +6,7 @@ import { findUsersService } from '../../../services/users';
 import { ErrorMessage } from '../../../utils/error';
 import { createAccessesService } from '../../../services/access/createAccessesService';
 
-export async function loginController(req: Request, res: Response) {
+export async function backofficeLoginController(req: Request, res: Response) {
   const { credential, password } = req.body;
 
   // #region VALIDATIONS
@@ -61,22 +61,6 @@ export async function loginController(req: Request, res: Response) {
   const token = await generateToken({
     user: {
       id: user.id,
-      username: user.username,
-      personId: user.personId,
-      permissions: [
-        {
-          id: '',
-          name: 'backoffice',
-          subPermissions: [
-            {
-              name: 'create',
-            },
-            {
-              name: 'read',
-            },
-          ],
-        },
-      ],
     },
   });
 

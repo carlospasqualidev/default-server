@@ -1,16 +1,9 @@
 import { prisma } from '.';
-import {
-  upsertAccessPermissions,
-  upsertBackofficeUser,
-  upsertGenders,
-  upsertPersonPermissions,
-} from './seeds';
+import { upsertPermissions, upsertBackofficeUser, upsertGenders } from './seeds';
 
 const main = async () => {
-  await upsertAccessPermissions();
-  await upsertPersonPermissions();
+  await upsertPermissions();
   await upsertGenders();
-
   await upsertBackofficeUser();
 };
 main()

@@ -1,4 +1,5 @@
 import { prisma, IPrisma } from '../../../../prisma';
+import { checkExists } from '../../utils/validator';
 
 // #region Interfaces
 interface IFindUsersService {
@@ -7,16 +8,23 @@ interface IFindUsersService {
 // endregion
 
 export async function findUsersService({ where }: IFindUsersService) {
-  return prisma.users.findFirst({
+  const user = await prisma.users.findFirst({
     include: {
       person: {
         include: {
-          companies: true,
           gender: true,
           address: true,
+        },
+      },
+      permissions: {
+        include: {
+          permission: true,
         },
       },
     },
     where,
   });
+  checkExists([{ label: 'Usuário', value: user }]);
+
+  return user!;
 }

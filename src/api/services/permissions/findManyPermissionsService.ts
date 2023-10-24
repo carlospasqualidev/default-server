@@ -1,19 +1,19 @@
 import { prisma, IPrisma } from '../../../../prisma';
 
 // #region Interfaces
-interface IFindManyPersonPermissions {
-  where?: IPrisma.personPermissionsWhereInput | undefined;
+interface IFindManyPermissions {
+  where?: IPrisma.permissionsWhereInput | undefined;
 }
 // endregion
 
-export function findManyPersonPermissionsService({ where }: IFindManyPersonPermissions) {
-  return prisma.personPermissions.findMany({
+export function findManyPermissionsService({ where }: IFindManyPermissions) {
+  return prisma.permissions.findMany({
     select: {
       id: true,
       name: true,
       type: true,
 
-      subPermissions: {
+      sublevels: {
         select: {
           id: true,
           name: true,

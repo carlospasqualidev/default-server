@@ -1,7 +1,15 @@
 // #region Imports
 import { Router } from 'express';
-import { checkToken, userCanCreate } from '../../utils/middlewares';
-import { loginController, validateTokenController } from './auth';
+
+// #region MIDLEWARES
+// #endregion
+
+// #region CONTROLLERS
+import { uploadRouter } from '../../utils/upload/upload.routes';
+
+import { validateTokenController } from './auth';
+import { findManyGendersController } from './genders';
+
 import {
   findUserController,
   createUsersController,
@@ -9,28 +17,31 @@ import {
   deleteUserController,
 } from './users';
 
-import { findManyGendersController } from './genders';
-import { uploadRouter } from '../../utils/upload/upload.routes';
+// #endregion
+
 // #endregion
 
 export const backofficeRouter: Router = Router();
 
-// #region Auth
-backofficeRouter.post('/auth/login', loginController);
-backofficeRouter.get('/auth/validate-token', checkToken, validateTokenController);
+// #region CheckUserAccess
+
 // #endregion
 
-backofficeRouter.get('/teste', checkToken, userCanCreate, findManyGendersController);
+// #region Auth
+backofficeRouter.get('/auth/validate-token', validateTokenController);
+// #endregion
+
+backofficeRouter.get('/companies/:companyId/teste', findManyGendersController);
 
 // #region Users
-backofficeRouter.get('/users', checkToken, findManyUsersController);
-backofficeRouter.get('/users/:userId', checkToken, findUserController);
-backofficeRouter.post('/users/create', checkToken, createUsersController);
-backofficeRouter.put('/users/delete/:userId', checkToken, deleteUserController);
+backofficeRouter.get('/users', findManyUsersController);
+backofficeRouter.get('/users/:userId', findUserController);
+backofficeRouter.post('/users/create', createUsersController);
+backofficeRouter.put('/users/delete/:userId', deleteUserController);
 // #endregion
 
 // #region Genders
-backofficeRouter.get('/genders', checkToken, findManyGendersController);
+backofficeRouter.get('/genders', findManyGendersController);
 // #endregion
 
 // #region Upload

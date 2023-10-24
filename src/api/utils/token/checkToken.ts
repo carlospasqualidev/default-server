@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { ErrorMessage } from '../error';
-import { decodeTokenService } from '../token';
+import { decodeTokenService } from '.';
 import { IToken } from '../../../types/token';
 
 export function checkToken(req: Request, _res: Response, next: NextFunction) {

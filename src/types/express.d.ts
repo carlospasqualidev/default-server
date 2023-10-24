@@ -3,15 +3,6 @@ declare namespace Express {
   export interface Request {
     user: {
       id: string;
-      permissions: {
-        id: string;
-        name: string;
-
-        subPermissions: {
-          id: string;
-          name: string;
-        }[];
-      }[];
     };
   }
 }
