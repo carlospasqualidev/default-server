@@ -13,9 +13,15 @@ export async function upsertBackofficeUser() {
     },
   });
 
-  const personPermission = await findPermissionsService({
+  const ownerPermission = await findPermissionsService({
     where: {
       name: 'owner',
+    },
+  });
+
+  const clientPermission = await findPermissionsService({
+    where: {
+      name: 'client',
     },
   });
 
@@ -53,7 +59,18 @@ export async function upsertBackofficeUser() {
           companies: {
             create: {
               companyId: company.id,
-              permissionId: personPermission!.id,
+              personCompanyPermissions: {
+                createMany: {
+                  data: [
+                    ...ownerPermission!.sublevels.map((permission) => ({
+                      permissionSublevelId: permission.id,
+                    })),
+                    ...clientPermission!.sublevels.map((permission) => ({
+                      permissionSublevelId: permission.id,
+                    })),
+                  ],
+                },
+              },
             },
           },
         },

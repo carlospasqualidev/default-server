@@ -22,6 +22,32 @@ model tokens {
 
 //#endregion
 
+//#region ACCESS
+model accesses {
+  id          String @id @unique @default(nanoid(12))
+  environment String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users userAccesses[]
+}
+
+model userAccesses {
+  id String @id @unique @default(nanoid(12))
+
+  accessId String
+  userId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  access accesses @relation(fields: [accessId], references: [id], onDelete: Cascade)
+}
+
+//#endregion
+
 //#region PERMISSIONS
 model permissions {
   id               String @id @unique @default(nanoid(12))
@@ -46,6 +72,8 @@ model permissionSublevels {
   updatedAt DateTime @updatedAt
 
   permissions permissions @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  personCompanyPermissions personCompanyPermissions[]
 }
 
 model permissionTypes {
@@ -70,19 +98,6 @@ model userAccessPermissions {
 
   user       users        @relation(fields: [userId], references: [id], onDelete: Cascade)
   permission permissions? @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-}
-
-//#endregion
-
-//#region ACCESS
-model accesses {
-  id          String @id @unique @default(nanoid(12))
-  environment String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  users userAccesses[]
 }
 
 //#endregion
@@ -121,6 +136,30 @@ model addresses {
   person  personAddresses?
 }
 
+model companyAddresses {
+  id        String @id @unique @default(nanoid(12))
+  companyId String
+  addressId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address addresses @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  company companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model personAddresses {
+  id        String  @id @unique @default(nanoid(12))
+  personId  String?
+  addressId String  @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address addresses @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  persons persons?  @relation(fields: [personId], references: [id], onDelete: Cascade)
+}
+
 //#endregion
 
 //#region COMPANIES
@@ -141,16 +180,30 @@ model companies {
   persons personCompanies[]
 }
 
-model companyAddresses {
-  id        String @id @unique @default(nanoid(12))
+model personCompanies {
+  id        String @id @default(uuid())
   companyId String
-  addressId String @unique
+  personId  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  address addresses @relation(fields: [addressId], references: [id], onDelete: Cascade)
   company companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  person  persons   @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  personCompanyPermissions personCompanyPermissions[]
+}
+
+model personCompanyPermissions {
+  id                   String @id @default(uuid())
+  personCompanyId      String
+  permissionSublevelId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  personCompany       personCompanies     @relation(fields: [personCompanyId], references: [id], onDelete: Cascade)
+  permissionSublevels permissionSublevels @relation(fields: [permissionSublevelId], references: [id], onDelete: Cascade)
 }
 
 //#endregion
@@ -175,31 +228,6 @@ model persons {
   companies personCompanies[]
 }
 
-model personAddresses {
-  id        String  @id @unique @default(nanoid(12))
-  personId  String?
-  addressId String  @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  address addresses @relation(fields: [addressId], references: [id], onDelete: Cascade)
-  persons persons?  @relation(fields: [personId], references: [id], onDelete: Cascade)
-}
-
-model personCompanies {
-  id           String @id @default(uuid())
-  companyId    String
-  personId     String
-  permissionId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  company companies @relation(fields: [companyId], references: [id])
-  person  persons   @relation(fields: [personId], references: [id])
-}
-
 //#endregion
 
 //#region USERS
@@ -217,19 +245,6 @@ model users {
   accesses    userAccesses[]
   person      persons?                @relation(fields: [personId], references: [id])
   permissions userAccessPermissions[]
-}
-
-model userAccesses {
-  id String @id @unique @default(nanoid(12))
-
-  accessId String
-  userId   String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user   users    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  access accesses @relation(fields: [accessId], references: [id], onDelete: Cascade)
 }
 
 //#endregion

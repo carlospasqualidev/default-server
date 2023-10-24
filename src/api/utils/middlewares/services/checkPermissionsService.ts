@@ -3,12 +3,12 @@ import { ErrorMessage } from '../../error';
 // #region TYPES
 interface IToCheck {
   name: string;
-  subPermissions?: string[] | undefined;
+  sublevels?: string[] | undefined;
 }
 
 export interface IPermissions {
   name: string;
-  subPermissions?:
+  sublevels?:
     | {
         name: string;
       }[]
@@ -29,7 +29,7 @@ export interface ICheckPermissionService {
               permissions,
   });
  */
-export function checkPersonPermissionService({ toCheck, permissions }: ICheckPermissionService) {
+export function checkPermissionService({ toCheck, permissions }: ICheckPermissionService) {
   // #region CHECKS
 
   if (!toCheck || !permissions || !permissions.length) {
@@ -49,12 +49,10 @@ export function checkPersonPermissionService({ toCheck, permissions }: ICheckPer
     });
   }
 
-  if (!toCheck.subPermissions) return;
+  if (!toCheck.sublevels) return;
 
-  const subPermissionIsValid = toCheck.subPermissions?.every((toCheckSubPermission) =>
-    permissionBase.subPermissions?.find(
-      (subPermission) => toCheckSubPermission === subPermission.name,
-    ),
+  const subPermissionIsValid = toCheck.sublevels?.every((toCheckSubPermission) =>
+    permissionBase.sublevels?.find((subPermission) => toCheckSubPermission === subPermission.name),
   );
 
   if (!subPermissionIsValid) {

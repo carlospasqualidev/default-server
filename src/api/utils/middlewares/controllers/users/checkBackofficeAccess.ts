@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { findUsersService } from '../../../../services/users';
-import { checkPersonPermissionService } from '../../services';
+import { checkPermissionService } from '../../services';
 import { checkExists } from '../../../validator';
 
 export async function checkBackofficeAccess(req: Request, _res: Response, next: NextFunction) {
@@ -25,7 +25,7 @@ export async function checkBackofficeAccess(req: Request, _res: Response, next: 
 
   const permissions = userData.permissions.map(({ permission }) => ({ name: permission!.name }));
 
-  checkPersonPermissionService({
+  checkPermissionService({
     toCheck: {
       name: 'backoffice',
     },

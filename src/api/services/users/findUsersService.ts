@@ -14,6 +14,19 @@ export async function findUsersService({ where }: IFindUsersService) {
         include: {
           gender: true,
           address: true,
+          companies: {
+            include: {
+              personCompanyPermissions: {
+                include: {
+                  permissionSublevels: {
+                    include: {
+                      permissions: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
       permissions: {
@@ -22,6 +35,7 @@ export async function findUsersService({ where }: IFindUsersService) {
         },
       },
     },
+
     where,
   });
   checkExists([{ label: 'Usuário', value: user }]);

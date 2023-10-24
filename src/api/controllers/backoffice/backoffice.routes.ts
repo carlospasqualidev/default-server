@@ -17,6 +17,8 @@ import {
   deleteUserController,
 } from './users';
 
+import { checkOwnerCompany } from '../../utils/middlewares/controllers/persons';
+
 // #endregion
 
 // #endregion
@@ -31,7 +33,7 @@ export const backofficeRouter: Router = Router();
 backofficeRouter.get('/auth/validate-token', validateTokenController);
 // #endregion
 
-backofficeRouter.get('/companies/:companyId/teste', findManyGendersController);
+backofficeRouter.get('/companies/:companyId/teste', checkOwnerCompany, findManyGendersController);
 
 // #region Users
 backofficeRouter.get('/users', findManyUsersController);
