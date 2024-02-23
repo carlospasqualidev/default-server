@@ -1,7 +1,7 @@
 import { IPrisma, prisma } from '../../../../prisma';
 
-export async function createTokenService(data: IPrisma.tokensUncheckedCreateInput) {
-  return prisma.tokens.create({
+export async function createTokenService(data: IPrisma.TokenUncheckedCreateInput) {
+  return prisma.token.create({
     data,
   });
 }

@@ -1,11 +1,10 @@
 import { prisma } from '.';
-import { upsertPermissions, upsertBackofficeUser, upsertGenders } from './seeds';
+import { createAdmin } from './seeds';
 
 const main = async () => {
-  await upsertPermissions();
-  await upsertGenders();
-  await upsertBackofficeUser();
+  await createAdmin();
 };
+
 main()
   .then(async () => {
     await prisma.$disconnect();

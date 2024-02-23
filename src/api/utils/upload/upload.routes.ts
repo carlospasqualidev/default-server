@@ -7,4 +7,4 @@ import { uploadMany } from './uploadMany';
 // ROUTES
 export const uploadRouter = Router();
 
-uploadRouter.post('/file', uploadMany);
+uploadRouter.post('/files', uploadMany);

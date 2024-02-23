@@ -1,8 +1,5 @@
-export interface IRemoveDays {
-  date: Date;
-  days: number;
-}
+import { IAddAndRemoveDays } from './types';
 
-export function removeDays({ date, days }: IRemoveDays) {
+export function removeDays({ date, days }: IAddAndRemoveDays) {
   return new Date(date.setDate(date.getDate() - days));
 }

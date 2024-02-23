@@ -1,3 +1,1 @@
-export * from './upsertGenders';
-export * from './upsertPermissions';
-export * from './upsertBackofficeUser';
+export * from './createAdmin';

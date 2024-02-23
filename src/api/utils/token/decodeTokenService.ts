@@ -1,8 +1,7 @@
 import { verify } from 'jsonwebtoken';
 import { ErrorMessage } from '../error/ErrorMessage';
-import 'dotenv/config';
 
-export function decodeTokenService(token: string) {
+export function decodeTokenService({ token }: { token: string }) {
   try {
     return verify(token, process.env.JWT_SECRET!);
   } catch (error) {

@@ -1,6 +1,9 @@
 export * from './addDays';
 export * from './addMinutes';
 
+export * from './addMonths';
+export * from './addMonths';
+
 export * from './removeDays';
 export * from './removeMinutes';
 

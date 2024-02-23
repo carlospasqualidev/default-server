@@ -8,6 +8,7 @@ import { IErrorMessage } from './types';
  * '401 UNAUTHORIZED': Acesso não autorizado.
  * '403 FORBIDDEN': Acesso proibido.
  * '404 NOT FOUND': Recurso não encontrado.
+ *  422 UNPROCESSABLE CONTENT: Entidade não processável.
  * '500 INTERNAL SERVER ERROR': Erro interno do servidor.
  */
 export class ErrorMessage {

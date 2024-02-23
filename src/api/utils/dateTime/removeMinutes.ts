@@ -1,8 +1,5 @@
-export interface IRemoveMinutes {
-  date: Date;
-  minutes: number;
-}
+import { IAddAndRemoveMinutes } from './types';
 
-export function removeMinutes({ date, minutes }: IRemoveMinutes) {
+export function removeMinutes({ date, minutes }: IAddAndRemoveMinutes) {
   return new Date(date.getTime() - minutes * 60000);
 }

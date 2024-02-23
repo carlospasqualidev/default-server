@@ -1,8 +1,8 @@
-import { ErrorMessage } from '../error/ErrorMessage';
 import { prisma } from '../../../../prisma';
+import { ErrorMessage } from '../error';
 
-export async function findTokenService(token: string) {
-  const tokenData = await prisma.tokens.findFirst({
+export async function findTokenService({ token }: { token: string }) {
+  const tokenData = await prisma.token.findFirst({
     where: {
       token,
       hasUsed: false,

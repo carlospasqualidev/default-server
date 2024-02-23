@@ -4,7 +4,8 @@
 
 import { NextFunction, Request, Response } from 'express';
 import { ErrorMessage } from './ErrorMessage';
-import { sendErrorToServerLog } from './sendErrorToServerLog';
+import { sendErrorsToLogServer } from './sendErrorsToLogServer';
+import { handlePrismaErrors } from './handlePrismaErrors';
 
 export async function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {
   if (err instanceof ErrorMessage) {
@@ -13,11 +14,11 @@ export async function errorHandler(err: Error, _req: Request, res: Response, _ne
     });
   }
 
-  sendErrorToServerLog({ stack: err.stack });
+  sendErrorsToLogServer({ stack: err.stack });
 
   console.error('\n\n\n ❌ Error ❌ \n\n\n', 'Error Message: ', err.stack, '\n\n\n');
 
   return res.status(500).json({
-    message: `Oops! Encontramos um problema e nossa equipe foi notificada.`,
+    message: handlePrismaErrors(err),
   });
 }

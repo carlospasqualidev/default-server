@@ -1,7 +1,7 @@
 import { prisma } from '../../../../prisma';
 
-export async function markTokenAsUsed(token: string) {
-  await prisma.tokens.update({
+export async function markTokenAsUsed({ token }: { token: string }) {
+  await prisma.token.update({
     data: {
       hasUsed: true,
     },

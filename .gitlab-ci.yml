@@ -1,13 +1,38 @@
-image: node:18.16.1
+image: node:20.11.0
 
 before_script:
   - apt-get update -qy
   - apt-get install -y ruby-dev
+  - gem install dpl
 
 stages:
+  - staging_migrate
+  - production_migrate
   - build
   - staging_deploy
   - production_deploy
+
+staging_migrate:
+  environment: review/develop
+  stage: staging_migrate
+  script:
+    - npm install -g prisma
+    - npm install
+    - npx prisma migrate deploy
+    - npx prisma db seed
+  only:
+    - develop
+
+production_migrate:
+  environment: production
+  stage: production_migrate
+  script:
+    - npm install -g prisma
+    - npm install
+    - npx prisma migrate deploy
+    - npx prisma db seed
+  only:
+    - master
 
 build:
   stage: build
