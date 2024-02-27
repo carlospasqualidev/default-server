@@ -1,10 +1,9 @@
-import { prisma } from '../../../../prisma';
-import { TPermissions } from '../../../types/permissions';
+import { prisma, enums } from '../../../../prisma';
 import { ErrorMessage } from '../../utils/error';
 
 interface ICheckOrganizationUserHasPermission {
   userId: string;
-  permission: TPermissions;
+  permission: enums.permissions;
 }
 
 export async function checkUserHasPermissionService({
@@ -16,12 +15,7 @@ export async function checkUserHasPermissionService({
       userPermissions: {
         select: {
           user: true,
-          permission: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
+          permission: true,
         },
       },
     },
@@ -30,9 +24,7 @@ export async function checkUserHasPermissionService({
       userPermissions: {
         some: {
           userId,
-          permission: {
-            name: permission,
-          },
+          permission,
         },
       },
     },

@@ -8,9 +8,9 @@ import {
 } from '../../../services/user';
 
 import { checkPassword, checkValues } from '../../../utils/validator';
-import { TPermissions } from '../../../../types/permissions';
 import { createInitialsAvatar } from '../../../utils/api/createInitialsAvatar';
-import { handlePermissionService } from '../../../services/permission';
+import { enums } from '../../../../../prisma';
+import { checkPermissionExistService } from '../../../services/permission';
 
 interface IBody {
   userId: string;
@@ -18,13 +18,13 @@ interface IBody {
   image: string;
   email: string;
   isBlocked: boolean;
-  permission: TPermissions;
+  permissions: enums.permissions[];
   password: string;
   confirmPassword: string;
 }
 
 export async function updateUserController(req: Request, res: Response) {
-  const { userId, name, image, email, isBlocked, permission, password, confirmPassword }: IBody =
+  const { userId, name, image, email, isBlocked, permissions, password, confirmPassword }: IBody =
     req.body;
 
   // #region VALIDATIONS
@@ -64,7 +64,7 @@ export async function updateUserController(req: Request, res: Response) {
     {
       label: 'permission',
       type: 'string',
-      value: permission,
+      value: permissions,
     },
     {
       label: 'imagem',
@@ -77,6 +77,7 @@ export async function updateUserController(req: Request, res: Response) {
   if (password) {
     checkPassword({ password, confirmPassword });
   }
+  await checkPermissionExistService({ permissions });
 
   const lowerCaseEmail = email.toLowerCase();
   await checkUserEmailAlreadyUsedService({ email: lowerCaseEmail, idToIgnore: userId });
@@ -88,12 +89,10 @@ export async function updateUserController(req: Request, res: Response) {
   let userPermissions;
 
   if (!isYourself) {
-    const permissions = await handlePermissionService({ permission });
     userPermissions = {
-      deleteMany: {},
-      create: permissions.map(({ id }) => ({
-        permissionId: id,
-      })),
+      createMany: {
+        data: permissions.map((permission) => ({ permission })),
+      },
     };
   }
 

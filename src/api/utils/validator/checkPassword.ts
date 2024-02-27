@@ -1,7 +1,7 @@
 import { ErrorMessage } from '../error';
 import { ICheckPassword } from './types';
 
-export function checkPassword({ password, confirmPassword }: ICheckPassword) {
+export async function checkPassword({ password, confirmPassword }: ICheckPassword) {
   if (password !== confirmPassword) {
     throw new ErrorMessage({
       message: 'As senhas precisam ser iguais',

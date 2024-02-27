@@ -3,21 +3,21 @@ import { Request, Response } from 'express';
 import { hashSync } from 'bcrypt';
 import { createUserService, checkUserEmailAlreadyUsedService } from '../../../services/user';
 import { checkPassword, checkValues } from '../../../utils/validator';
-import { TPermissions } from '../../../../types/permissions';
 import { createInitialsAvatar } from '../../../utils/api/createInitialsAvatar';
-import { handlePermissionService } from '../../../services/permission';
+import { enums } from '../../../../../prisma';
+import { checkPermissionExistService } from '../../../services/permission';
 
 interface IBody {
   name: string;
   image: string;
   email: string;
-  permission: TPermissions;
+  permissions: enums.permissions[];
   password: string;
   confirmPassword: string;
 }
 
 export async function createUserController(req: Request, res: Response) {
-  const { name, image, email, permission, password, confirmPassword }: IBody = req.body;
+  const { name, image, email, permissions, password, confirmPassword }: IBody = req.body;
 
   // #region VALIDATIONS
   checkValues([
@@ -44,7 +44,7 @@ export async function createUserController(req: Request, res: Response) {
     {
       label: 'permission',
       type: 'string',
-      value: permission,
+      value: permissions,
     },
     {
       label: 'imagem',
@@ -54,14 +54,14 @@ export async function createUserController(req: Request, res: Response) {
     },
   ]);
 
-  checkPassword({ password, confirmPassword });
+  await checkPassword({ password, confirmPassword });
+
+  await checkPermissionExistService({ permissions });
 
   const lowerCaseEmail = email.toLowerCase();
   await checkUserEmailAlreadyUsedService({ email: lowerCaseEmail });
 
   // #endregion
-
-  const permissions = await handlePermissionService({ permission });
 
   const user = await createUserService({
     data: {
@@ -70,8 +70,8 @@ export async function createUserController(req: Request, res: Response) {
       password: hashSync(password, 12),
       image: image || createInitialsAvatar(name),
       userPermissions: {
-        create: permissions.map(({ id }) => ({
-          permissionId: id,
+        create: permissions.map((permission) => ({
+          permission,
         })),
       },
     },

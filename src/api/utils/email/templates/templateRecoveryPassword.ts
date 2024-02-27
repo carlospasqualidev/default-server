@@ -15,7 +15,7 @@ export function templateRecoveryPassword({ token }: ITemplateConfirmationToRegis
     >
       <div style="width: 328px; margin: 0 auto;">
         <h3 style="color: #000000; margin: 40px 0 24px; text-align: center;">
-        Convite de organização
+        Recuperação de senha
         </h3>
 
         <p>

@@ -8,7 +8,6 @@ interface IFindManyUserService {
 
 export async function findManyUserService({ page, take, filter }: IFindManyUserService) {
   const where: IPrisma.UserWhereInput = {
-    isDeleted: false,
     name: {
       contains: filter,
       mode: 'insensitive',
@@ -35,11 +34,7 @@ export async function findManyUserService({ page, take, filter }: IFindManyUserS
 
         userPermissions: {
           select: {
-            permission: {
-              select: {
-                name: true,
-              },
-            },
+            permission: true,
           },
         },
       },
@@ -58,9 +53,6 @@ export async function findManyUserService({ page, take, filter }: IFindManyUserS
 
   const users = usersData.map((user) => {
     const lastAccess = user.accesses?.[0]?.createdAt || null;
-    const permission = user.userPermissions.some(
-      (userPermission) => userPermission.permission.name === 'admin',
-    );
 
     return {
       id: user.id,
@@ -69,7 +61,6 @@ export async function findManyUserService({ page, take, filter }: IFindManyUserS
       image: user.image,
       isBlocked: user.isBlocked,
       lastAccess,
-      permission: permission ? 'admin' : 'collaborator',
     };
   });
 

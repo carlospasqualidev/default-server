@@ -25,7 +25,7 @@ export async function recoveryPasswordController(req: Request, res: Response) {
     { label: 'Confirmação de senha', value: confirmPassword, type: 'string' },
   ]);
 
-  checkPassword({
+  await checkPassword({
     password,
     confirmPassword,
   });

@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.478.0",
-    "@prisma/client": "^5.10.1",
+    "@prisma/client": "^5.10.2",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -50,7 +50,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
-    "prisma": "^5.10.1",
+    "prisma": "^5.10.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
   }

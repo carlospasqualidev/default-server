@@ -1,2 +1,1 @@
-export * from './privateAdminPermissionMiddleware';
-export * from './privateCollaboratorPermissionMiddleware';
+export * from './privateUserCreateMiddleware';

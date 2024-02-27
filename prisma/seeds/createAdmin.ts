@@ -1,10 +1,9 @@
 import { hashSync } from 'bcrypt';
-
-import { findManyPermissionsService } from '../../src/api/services/permission';
 import { prisma } from '../prismaConfig';
+import { findManyPermissionService } from '../../src/api/services/permission';
 
 export async function createAdmin() {
-  const permissions = await findManyPermissionsService();
+  const permissions = await findManyPermissionService();
 
   await prisma.user.upsert({
     create: {
@@ -13,8 +12,8 @@ export async function createAdmin() {
       password: hashSync('123123123', 12),
       userPermissions: {
         createMany: {
-          data: permissions.map((permission) => ({
-            permissionId: permission.id,
+          data: permissions.map(({ permission }) => ({
+            permission,
           })),
         },
       },

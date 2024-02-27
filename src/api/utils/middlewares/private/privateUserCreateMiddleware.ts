@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { checkUserHasPermissionService } from '../../../services/user/checkUserHasPermissionService';
 import { ErrorMessage } from '../../error';
 
-export async function privateAdminPermissionMiddleware(
+export async function privateUserCreateMiddleware(
   req: Request,
   _res: Response,
   next: NextFunction,
@@ -18,7 +18,7 @@ export async function privateAdminPermissionMiddleware(
 
   await checkUserHasPermissionService({
     userId: user.id,
-    permission: 'admin',
+    permission: 'userCreate',
   });
 
   next();
